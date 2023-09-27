@@ -7,12 +7,23 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, rollbackFor = Exception.class)
 public abstract class BaseServiceImpl<T extends BaseModel> extends BaseComponent implements BaseService<T, Long> {
-    public abstract JpaRepository<T, Long> getRepository();
+    public abstract JpaRepository<T,Long> getRepository();
 
+    @SafeVarargs
+    @Override
+    public final List<T> createAll(final T... items) {
+        return createAll(Arrays.asList(items));
+    }
+
+    @Override
+    public List<T> createAll(final List<T> items) {
+        return getRepository().saveAll(items);
+    }
     @Override
     public T create(final T item) {
         logger.trace("Creating {}.", item);

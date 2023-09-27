@@ -1,6 +1,7 @@
 package gr.codelearn.acme.javapathspringdelivery.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.List;
@@ -11,11 +12,13 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "STORE_CATEGORIES", indexes = {@Index(columnList = "name")})
+@Table(name = "STORE_CATEGORIES", indexes = {@Index(columnList = "storeType")})
 @SequenceGenerator(name = "idGenerator", sequenceName = "STORESCAT_SEQ", initialValue = 1, allocationSize = 1)
-public class StoreCategory extends BaseModel{
-    @Column(nullable = false)
-    private String name;
-    @ManyToMany
-    private List<Store> stores;
+public class StoreCategory extends BaseModel {
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(length = 15, nullable = false)
+    private StoreType storeType;
+    /*@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Store> stores;*/
 }

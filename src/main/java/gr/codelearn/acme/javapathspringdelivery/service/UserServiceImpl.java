@@ -12,7 +12,7 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
     private final UserRepository userRepository;
 
     @Override
-    public JpaRepository<User, Long> getRepository() {
+    public JpaRepository<User,Long> getRepository() {
         return userRepository;
     }
 }

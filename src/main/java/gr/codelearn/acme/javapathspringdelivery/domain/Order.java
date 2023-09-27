@@ -6,7 +6,8 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -18,9 +19,12 @@ import java.util.List;
 @Table(name = "ORDERS")
 @SequenceGenerator(name = "idGenerator", sequenceName = "ORDERS_SEQ", initialValue = 1, allocationSize = 1)
 public class Order extends BaseModel{
+    @ManyToOne
+    @JoinColumn(referencedColumnName = "id")
     private User user;
-    //@ToString.Exclude
-    //private List<Product> products;
+    @ToString.Exclude
+    @OneToMany()
+    private Set<Product> products = new HashSet<>();
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(length = 15, nullable = false)
@@ -31,5 +35,6 @@ public class Order extends BaseModel{
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
     private Date orderingDate;
-
+    @ManyToOne
+    private Store store;
 }

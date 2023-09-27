@@ -20,8 +20,12 @@ public class Product extends BaseModel{
     private String name;
     private String description;
     @ManyToOne
+    @JoinColumn
     private Store store;
     @NotNull(message = "Product price is mandatory!")
     @Column(precision = 10, scale = 2, nullable = false)
     private BigDecimal price;
+    @ManyToOne
+    @JoinColumn
+    private ProductCategory productCategory;
 }
