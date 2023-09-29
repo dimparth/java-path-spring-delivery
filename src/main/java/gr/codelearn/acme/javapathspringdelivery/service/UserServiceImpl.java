@@ -15,4 +15,7 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
     public JpaRepository<User,Long> getRepository() {
         return userRepository;
     }
+    public User getUserByEmail(String email){
+        return userRepository.findByEmail(email == null || email.isEmpty() ? "" : email);
+    }
 }

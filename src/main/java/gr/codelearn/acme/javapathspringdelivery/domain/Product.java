@@ -19,8 +19,7 @@ public class Product extends BaseModel{
     @NotNull(message = "Product name is mandatory!")
     private String name;
     private String description;
-    @ManyToOne
-    @JoinColumn
+    @ManyToOne(fetch = FetchType.LAZY)
     private Store store;
     @NotNull(message = "Product price is mandatory!")
     @Column(precision = 10, scale = 2, nullable = false)

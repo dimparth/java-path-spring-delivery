@@ -1,6 +1,8 @@
 server:
   port: 7262
 spring:
+  session:
+    timeout: 200
   data:
     jpa:
       repositories:

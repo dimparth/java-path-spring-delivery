@@ -1,19 +1,19 @@
 package gr.codelearn.acme.javapathspringdelivery.controller;
 
 import gr.codelearn.acme.javapathspringdelivery.base.BaseComponent;
-import gr.codelearn.acme.javapathspringdelivery.bootstrap.SampleDataInitializer;
 import gr.codelearn.acme.javapathspringdelivery.domain.BaseModel;
 import gr.codelearn.acme.javapathspringdelivery.mapper.BaseMapper;
 import gr.codelearn.acme.javapathspringdelivery.service.BaseService;
 import gr.codelearn.acme.javapathspringdelivery.transfer.ApiResponse;
 import gr.codelearn.acme.javapathspringdelivery.transfer.resource.BaseResource;
+import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public abstract class BaseController<T extends BaseModel, R extends BaseResource> extends BaseComponent {
 
@@ -22,14 +22,13 @@ public abstract class BaseController<T extends BaseModel, R extends BaseResource
     protected abstract BaseMapper<T, R> getMapper();
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<R>> get(@PathVariable("id") final Long id) {
-        return ResponseEntity.ok(
-                ApiResponse.<R>builder().data(getMapper().toResource(getBaseService().get(id))).build());
+    public CompletableFuture<ResponseEntity<ApiResponse<R>>> get(@PathVariable("id") final Long id) {
+        return CompletableFuture.supplyAsync(()->ResponseEntity.ok(
+                ApiResponse.<R>builder().data(getMapper().toResource(getBaseService().get(id))).build()));
     }
 
     @GetMapping
     public ResponseEntity<ApiResponse<List<R>>> findAll() {
-
         return ResponseEntity.ok(
                 ApiResponse.<List<R>>builder().data(getMapper().toResources(getBaseService().findAll())).build());
     }

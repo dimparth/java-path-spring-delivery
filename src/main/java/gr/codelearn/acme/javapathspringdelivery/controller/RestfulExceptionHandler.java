@@ -17,6 +17,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 import java.util.Arrays;
 import java.util.NoSuchElementException;
+import java.util.concurrent.TimeoutException;
 
 @RestControllerAdvice
 public class RestfulExceptionHandler extends BaseComponent {
@@ -86,13 +87,20 @@ public class RestfulExceptionHandler extends BaseComponent {
                 ApiResponse.builder().apiError(getApiError(ex, HttpStatus.BAD_REQUEST, request)).build(),
                 HttpStatus.BAD_REQUEST);
     }
-
+    @ExceptionHandler(TimeoutException.class)
+    public ResponseEntity<ApiResponse<?>> handleTimeout(final TimeoutException ex,
+                                                                           final WebRequest request) {
+        logger.error("took longer than 200ms to produce a response", ex);
+        return new ResponseEntity<>(
+                ApiResponse.builder().apiError(getApiError(ex, HttpStatus.REQUEST_TIMEOUT, request)).build(),
+                HttpStatus.REQUEST_TIMEOUT);
+    }
     private ApiError getApiError(final Exception ex, final HttpStatus status, final WebRequest request) {
         String path = request.getDescription(false);
         if (path.indexOf("uri=") == 0) {
             path = StringUtils.replace(path, "uri=", "");
         }
-        return ApiError.builder().status(status.value()).message(ex.getMessage()).debugMessage(Arrays.toString(ex.getStackTrace())).path(path).build();
+        return ApiError.builder().status(status.value()).message(ex.getMessage()).path(path).build();
     }
 
     private ApiError getApiError(final Exception ex, final HttpStatus status, final WebRequest request,
@@ -101,6 +109,6 @@ public class RestfulExceptionHandler extends BaseComponent {
         if (path.indexOf("uri=") == 0) {
             path = StringUtils.replace(path, "uri=", "");
         }
-        return ApiError.builder().status(status.value()).message(customMessage != null ? customMessage : ex.getMessage()).debugMessage(Arrays.toString(ex.getStackTrace())).path(path).build();
+        return ApiError.builder().status(status.value()).message(customMessage != null ? customMessage : ex.getMessage()).path(path).build();
     }
 }

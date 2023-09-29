@@ -36,6 +36,4 @@ public class User extends BaseModel{
     private String address;
     @NotNull(message = "Phone number is required!")
     private String phoneNumber;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    private List<Order> orders;
 }

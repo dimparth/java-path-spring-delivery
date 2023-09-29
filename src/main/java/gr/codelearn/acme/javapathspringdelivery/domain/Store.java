@@ -26,10 +26,10 @@ public class Store extends BaseModel{
     @NotNull(message = "Store address is mandatory!")
     private String address;
     @ToString.Exclude
-    @OneToMany//(fetch = FetchType.LAZY, mappedBy = "store",cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY)
     private List<Order> orders;
     @ToString.Exclude
-    @OneToMany//(fetch = FetchType.LAZY, mappedBy = "store", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY)
     private Set<Product> products = new HashSet<>();
     @ManyToOne
     @JoinColumn

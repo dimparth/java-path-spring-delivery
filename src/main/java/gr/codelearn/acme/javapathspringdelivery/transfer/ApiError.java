@@ -10,6 +10,5 @@ import lombok.ToString;
 public class ApiError {
     private Integer status;
     private String message;
-    private String debugMessage;
     private String path;
 }

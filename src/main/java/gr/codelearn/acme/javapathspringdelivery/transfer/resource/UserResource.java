@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.List;
+
 @Getter
 @Setter
 @ToString(callSuper = true)
@@ -15,4 +17,6 @@ public class UserResource extends BaseResource {
     private Integer age;
     private String address;
     private String phoneNumber;
+    /*@ToString.Exclude
+    private List<OrderResource> orders;*/
 }

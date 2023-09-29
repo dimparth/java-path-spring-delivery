@@ -1,10 +1,23 @@
 package gr.codelearn.acme.javapathspringdelivery.mapper;
 
+import gr.codelearn.acme.javapathspringdelivery.domain.Order;
 import gr.codelearn.acme.javapathspringdelivery.domain.Store;
 import gr.codelearn.acme.javapathspringdelivery.transfer.resource.StoreResource;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring", config = IgnoreUnmappedConfig.class)
+import java.util.List;
+
+@Mapper(componentModel = "spring",  config = IgnoreUnmappedConfig.class)
 public interface StoreMapper extends BaseMapper<Store, StoreResource> {
+    @Mapping(target = "orders", expression = "java(countOrders(domain.getOrders()))")
+    StoreResource toResource(Store domain);
 
+    @Mapping(target = "orders", ignore = true)
+    Store toDomain(StoreResource resource);
+
+
+    default Long countOrders(List<Order> orders) {
+        return (long) orders.size();
+    }
 }
