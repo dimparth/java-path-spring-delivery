@@ -35,6 +35,7 @@ public class Order extends BaseModel{
     private Date orderingDate;
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(referencedColumnName = "id")
     private Store store;
     @Enumerated(EnumType.STRING)
     @Column(length = 15, nullable = false)

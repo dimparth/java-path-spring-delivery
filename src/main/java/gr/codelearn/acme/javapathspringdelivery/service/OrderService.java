@@ -1,13 +1,14 @@
 package gr.codelearn.acme.javapathspringdelivery.service;
 
 import gr.codelearn.acme.javapathspringdelivery.domain.Order;
-import gr.codelearn.acme.javapathspringdelivery.domain.User;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 public interface OrderService extends BaseService<Order,Long> {
     //Order initiateOrder(Order order);
-    Order initiateOrderForUser(String userEmail, String storeName, List<String> productNames);
-    List<Order> getOrdersForUser(String email);
+    Order initiateOrderForUser(Order order);
+    CompletableFuture<List<Order>> getOrdersForUser(String email);
     Order checkoutOrder(Order order);
 }

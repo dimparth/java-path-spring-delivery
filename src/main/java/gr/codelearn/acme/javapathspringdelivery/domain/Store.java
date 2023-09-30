@@ -31,7 +31,7 @@ public class Store extends BaseModel{
     @ToString.Exclude
     @OneToMany(fetch = FetchType.LAZY)
     private Set<Product> products = new HashSet<>();
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
     private StoreCategory storeCategory;
 }

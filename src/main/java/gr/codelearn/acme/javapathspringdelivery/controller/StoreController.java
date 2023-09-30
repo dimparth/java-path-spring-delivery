@@ -3,14 +3,14 @@ package gr.codelearn.acme.javapathspringdelivery.controller;
 import gr.codelearn.acme.javapathspringdelivery.domain.Store;
 import gr.codelearn.acme.javapathspringdelivery.mapper.BaseMapper;
 import gr.codelearn.acme.javapathspringdelivery.mapper.StoreMapper;
-import gr.codelearn.acme.javapathspringdelivery.service.StoreService;
 import gr.codelearn.acme.javapathspringdelivery.service.BaseService;
+import gr.codelearn.acme.javapathspringdelivery.service.StoreService;
 import gr.codelearn.acme.javapathspringdelivery.transfer.ApiResponse;
+import gr.codelearn.acme.javapathspringdelivery.transfer.PopularStoresPerCategoryDto;
+import gr.codelearn.acme.javapathspringdelivery.transfer.PopularStoresPerCategoryDto2;
 import gr.codelearn.acme.javapathspringdelivery.transfer.resource.StoreResource;
 import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequiredArgsConstructor
@@ -38,9 +38,9 @@ public class StoreController extends BaseController<Store, StoreResource>{
     }
 
     @GetMapping("/{name}")
-    public ResponseEntity<ApiResponse<StoreResource>> getByStoreName(@PathVariable("name") final String name) {
+    public ResponseEntity<ApiResponse<StoreResource>> getByStoreName(@PathVariable("name") final String name) throws ExecutionException, InterruptedException {
         return ResponseEntity.ok(
-                ApiResponse.<StoreResource>builder().data(getMapper().toResource(storeService.getStoreByName(name))).build());
+                ApiResponse.<StoreResource>builder().data(getMapper().toResource(storeService.getStoreByName(name).get())).build());
     }
 
     @GetMapping("/{category}")
@@ -49,28 +49,30 @@ public class StoreController extends BaseController<Store, StoreResource>{
                 ApiResponse.<List<StoreResource>>builder().data(getMapper().toResources(storeService.getStoreByCategory(category))).build()
         );
     }
+    @GetMapping(headers = "action=storesByPopularity")
+    public ResponseEntity<ApiResponse<List<StoreResource>>> getStoresByPopularity() throws ExecutionException, InterruptedException {
+        return ResponseEntity.ok(
+                ApiResponse.<List<StoreResource>>builder().data(getMapper().toResources(storeService.getPopularStores().get())).build()
+        );
+    }
+
+    @GetMapping(headers = "action=storesByPopularityAndCategory")
+    public ResponseEntity<ApiResponse<List<PopularStoresPerCategoryDto2>>> getStoresByPopularityAndCategory() throws ExecutionException, InterruptedException {
+        return ResponseEntity.ok(
+                ApiResponse.<List<PopularStoresPerCategoryDto2>>builder().data(storeService.getPopularStoresPerCategory().get()).build()
+        );
+    }
 
     @GetMapping("/timeout")
     @TimeLimiter(name = "basicTimeout")
-    public CompletableFuture<ResponseEntity<ApiResponse<StoreResource>>> timeout(){
+    public CompletableFuture<ResponseEntity<ApiResponse<List<StoreResource>>>> timeout(){
         return CompletableFuture.supplyAsync(()->{
             Long i =1L;
             while(i>0){
                 i++;
             }
             return ResponseEntity.ok(
-                    ApiResponse.<StoreResource>builder().data(getMapper().toResource(storeService.getStoreByName("name"))).build());
+                    ApiResponse.<List<StoreResource>>builder().data(getMapper().toResources((storeService.findAll()))).build());
         });
-        /*int i =1;
-        while(i>0){
-            i++;
-        }
-        ResponseEntity.ok(
-                ApiResponse.<StoreResource>builder().data(getMapper().toResource(storeService.getStoreByName("name"))).build());*/
-    }
-    protected HttpHeaders getTimeoutHeaders() {
-        final HttpHeaders headers = new HttpHeaders();
-        headers.add("Keep-Alive", "timeout=1, max=1000");
-        return headers;
     }
 }

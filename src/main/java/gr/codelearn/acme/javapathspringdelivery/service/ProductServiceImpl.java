@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -19,17 +21,33 @@ public class ProductServiceImpl extends BaseServiceImpl<Product> implements Prod
         return productRepository;
     }
     @Override
+    public List<Product> findAll(){
+        return productRepository.findAllFetching();
+    }
+    @Override
     public List<Product> createAll(final List<Product> items) {
         for (var item:items) {
-            ProductCategory productCategoryByProductType = productCategoryService.getProductCategoryByProductType(item.getProductCategory().getProductType());
-            if (productCategoryByProductType != null){
+            var  productCategoryByProductType = productCategoryService.getProductCategoryByProductType(item.getProductCategory().getProductType().toString()) != null
+                    ?
+                    productCategoryService.getProductCategoryByProductType(item.getProductCategory().getProductType().toString())
+                    :
+                    productCategoryService.create(productCategoryService.getNonPersistentProductCategory(item.getProductCategory().getProductType().toString()));
+            /*if (productCategoryByProductType != null){
                 productCategoryByProductType = productCategoryService.create(productCategoryByProductType);
-            }
+            }*/
             item.setProductCategory(productCategoryByProductType);
         }
         return getRepository().saveAll(items);
     }
     public Product getByName(String name){
         return productRepository.getByName(name);
+    }
+    public List<Product> createOrUpdateProducts(List<String> productNames){
+        var storeProducts = new ArrayList<Product>();
+        for (var product:productNames
+        ) {
+            storeProducts.add(getByName(product));
+        }
+        return createAll(storeProducts);
     }
 }

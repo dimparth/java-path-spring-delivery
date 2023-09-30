@@ -7,8 +7,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-@Mapper(componentModel = "spring",  config = IgnoreUnmappedConfig.class)
+@Mapper(componentModel = "spring", uses = {ProductMapper.class}, config = IgnoreUnmappedConfig.class)
 public interface StoreMapper extends BaseMapper<Store, StoreResource> {
     @Mapping(target = "orders", expression = "java(countOrders(domain.getOrders()))")
     StoreResource toResource(Store domain);
@@ -18,6 +19,7 @@ public interface StoreMapper extends BaseMapper<Store, StoreResource> {
 
 
     default Long countOrders(List<Order> orders) {
-        return (long) orders.size();
+        System.out.println("orders in mapper: "+ orders);
+        return (long) orders.stream().distinct().toList().size();
     }
 }

@@ -13,9 +13,11 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "PRODUCTS")
+@Table(name = "PRODUCTS", indexes = {@Index(columnList = "serialNo")})
 @SequenceGenerator(name = "idGenerator", sequenceName = "PRODUCTS_SEQ", initialValue = 1, allocationSize = 1)
 public class Product extends BaseModel{
+    @NotNull(message = "Product must have a S/N")
+    private String serialNo;
     @NotNull(message = "Product name is mandatory!")
     private String name;
     private String description;
@@ -24,7 +26,7 @@ public class Product extends BaseModel{
     @NotNull(message = "Product price is mandatory!")
     @Column(precision = 10, scale = 2, nullable = false)
     private BigDecimal price;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
     private ProductCategory productCategory;
 }

@@ -17,6 +17,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 import java.util.Arrays;
 import java.util.NoSuchElementException;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
 
 @RestControllerAdvice
@@ -95,6 +96,23 @@ public class RestfulExceptionHandler extends BaseComponent {
                 ApiResponse.builder().apiError(getApiError(ex, HttpStatus.REQUEST_TIMEOUT, request)).build(),
                 HttpStatus.REQUEST_TIMEOUT);
     }
+    @ExceptionHandler(ExecutionException.class)
+    public ResponseEntity<ApiResponse<?>> handleExecutionException(final ExecutionException ex,
+                                                        final WebRequest request) {
+        logger.error("took longer than 200ms to produce a response", ex);
+        return new ResponseEntity<>(
+                ApiResponse.builder().apiError(getApiError(ex, HttpStatus.REQUEST_TIMEOUT, request)).build(),
+                HttpStatus.REQUEST_TIMEOUT);
+    }
+    @ExceptionHandler(InterruptedException.class)
+    public ResponseEntity<ApiResponse<?>> handleInterruptedException(final InterruptedException ex,
+                                                                   final WebRequest request) {
+        logger.error("took longer than 200ms to produce a response", ex);
+        return new ResponseEntity<>(
+                ApiResponse.builder().apiError(getApiError(ex, HttpStatus.REQUEST_TIMEOUT, request)).build(),
+                HttpStatus.REQUEST_TIMEOUT);
+    }
+
     private ApiError getApiError(final Exception ex, final HttpStatus status, final WebRequest request) {
         String path = request.getDescription(false);
         if (path.indexOf("uri=") == 0) {

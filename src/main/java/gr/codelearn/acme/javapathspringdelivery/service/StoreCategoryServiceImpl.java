@@ -1,6 +1,5 @@
 package gr.codelearn.acme.javapathspringdelivery.service;
 
-import gr.codelearn.acme.javapathspringdelivery.domain.Store;
 import gr.codelearn.acme.javapathspringdelivery.domain.StoreCategory;
 import gr.codelearn.acme.javapathspringdelivery.domain.StoreType;
 import gr.codelearn.acme.javapathspringdelivery.repository.StoreCategoryRepository;
@@ -9,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,9 +19,12 @@ public class StoreCategoryServiceImpl extends BaseServiceImpl<StoreCategory> imp
         return storeCategoryRepository;
     }
 
+    public StoreCategory getStoreCategory(String storeType){
+        return StoreCategory.builder().storeType(getStoreType(storeType)).build();
+    }
     @Override
-    public StoreCategory getStoreCategoryByStoreType(String storeType) {
-        return storeCategoryRepository.findByStoreType(getStoreType(storeType));
+    public Optional<StoreCategory> getStoreCategoryByStoreType(String storeType) {
+        return Optional.ofNullable(storeCategoryRepository.findByStoreType(getStoreType(storeType)));
     }
     private StoreType getStoreType(String input){
         for (StoreType storeType : StoreType.values()) {

@@ -1,6 +1,7 @@
 package gr.codelearn.acme.javapathspringdelivery.transfer.resource;
 
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -10,6 +11,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString(callSuper = true)
+@Builder
 public class UserResource extends BaseResource {
     private String email;
     private String firstname;
@@ -17,6 +19,4 @@ public class UserResource extends BaseResource {
     private Integer age;
     private String address;
     private String phoneNumber;
-    /*@ToString.Exclude
-    private List<OrderResource> orders;*/
 }

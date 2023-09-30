@@ -4,5 +4,6 @@ import gr.codelearn.acme.javapathspringdelivery.domain.ProductCategory;
 import gr.codelearn.acme.javapathspringdelivery.domain.ProductType;
 
 public interface ProductCategoryService extends BaseService<ProductCategory,Long>{
-    ProductCategory getProductCategoryByProductType(ProductType productType);
+    ProductCategory getProductCategoryByProductType(String productType);
+    ProductCategory getNonPersistentProductCategory(String productType);
 }

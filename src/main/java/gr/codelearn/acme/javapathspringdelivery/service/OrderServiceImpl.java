@@ -2,12 +2,14 @@ package gr.codelearn.acme.javapathspringdelivery.service;
 
 import gr.codelearn.acme.javapathspringdelivery.domain.*;
 import gr.codelearn.acme.javapathspringdelivery.repository.OrderRepository;
+import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 @Service
 @RequiredArgsConstructor
@@ -20,58 +22,64 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderSer
     public JpaRepository<Order, Long> getRepository() {
         return orderRepository;
     }
-    public List<Order> getOrdersForUser(String email){
-        return orderRepository.findOrdersByUserEmail(email);
+    @TimeLimiter(name="basicTimeout")
+    public CompletableFuture<List<Order>> getOrdersForUser(final String email){
+        return CompletableFuture.supplyAsync(()->{
+            var res = orderRepository.findOrdersByUserEmail(email);
+            return res;
+        });
     }
 
     @Override
     public List<Order> findAll(){
-        var orders = orderRepository.findAllFetching();
-        return orders;
+        return orderRepository.findAllFetching();
     }
-    public Order initiateOrderForUser(String userEmail, String storeName, List<String> productNames){
-        var orderingUser = userService.getUserByEmail(userEmail);
-        var store = storeService.getStoreByName(storeName);
-        var newOrder = getActiveOrdersForUser(orderingUser.getEmail()).isPresent() ? getActiveOrdersForUser(orderingUser.getEmail()).get() : initiateOrder();
-        newOrder.setUser(orderingUser);
-        var products = new HashSet<>(getProductsForOrder(productNames));
-        newOrder = create(newOrder);
-        store = storeService.create(store);
-        newOrder.setStore(storeService.addOrderToStore(store, newOrder));
-        newOrder.setOrderItems(getOrderItems(products,newOrder));
-        newOrder = create(newOrder);
-        return newOrder;
+
+    public Order initiateOrderForUser(Order order){
+        User orderingUser = userService.getUserByEmail(order.getUser().getEmail());
+        Store store = getStoreForOrder(order.getStore().getName());
+        Order activeOrder = getActiveOrdersForUser(orderingUser.getEmail());
+        activeOrder.setUser(orderingUser);
+        activeOrder.setStore(storeService.addOrderToStore(storeService.create(store), activeOrder));
+        Set<Product> products = new HashSet<>(getProductsForOrder(order.getOrderItems()));
+        Set<OrderItem> orderItems = getOrderItems(products, activeOrder);
+        var persistedOrder = create(activeOrder);
+        persistedOrder.setOrderItems(orderItems);
+        return create(persistedOrder);
     }
 
     public Order checkoutOrder(Order order){
-        var orderToCheckout = getActiveOrdersForUser(order.getUser().getEmail()).isPresent()? getActiveOrdersForUser(order.getUser().getEmail()).get() : initiateOrderForUser(order.getUser().getEmail(), order.getStore().getName()
-        , order.getOrderItems().stream().map(x->x.getProduct().getName()).collect(Collectors.toList()));
+        var orderToCheckout = getActiveOrdersForUser(order.getUser().getEmail());
         orderToCheckout.setOrderStatus(OrderStatus.COMPLETED);
         return create(orderToCheckout);
     }
 
     private Order cancelOrder(Order order){
-        var orderToCancel = getActiveOrdersForUser(order.getUser().getEmail()).isPresent()? getActiveOrdersForUser(order.getUser().getEmail()).get() : initiateOrderForUser(order.getUser().getEmail(), order.getStore().getName()
-                , order.getOrderItems().stream().map(x->x.getProduct().getName()).collect(Collectors.toList()));
+        var orderToCancel = getActiveOrdersForUser(order.getUser().getEmail());
         orderToCancel.setOrderStatus(OrderStatus.CANCELED);
         return create(orderToCancel);
     }
 
     private Order initiateOrder(){
-        return Order.builder().orderStatus(OrderStatus.ACTIVE).store(Store.builder().name("").build()).orderingDate(new Date()).paymentMethod(PaymentMethod.CASH).build();
+        return Order.builder().orderStatus(OrderStatus.ACTIVE)
+                .store(Store.builder().name("").build()).orderingDate(new Date())
+                .paymentMethod(PaymentMethod.CASH).build();
     }
-    private Optional<Order> getActiveOrdersForUser(String userEmail){
-        return orderRepository.findOrdersByUserEmail(userEmail).stream().filter(order -> order.getOrderStatus() == OrderStatus.ACTIVE).findFirst();
+    private Order getActiveOrdersForUser(String userEmail){
+        return orderRepository.
+                findOrdersByUserEmail(userEmail).stream().filter(order -> order.getOrderStatus() == OrderStatus.ACTIVE)
+                .findFirst()
+                .orElse(initiateOrder());
     }
-    private List<Product> getProductsForOrder(List<String> productNames){
+    private List<Product> getProductsForOrder(Set<OrderItem> productNames){
         List<Product> producstForOrder = new ArrayList<>();
         for (var prod:productNames
              ) {
-            producstForOrder.add(productService.getByName(prod));
+            producstForOrder.add(productService.getByName(prod.getProduct().getName()));
         }
         return producstForOrder;
     }
-    private Set<OrderItem> getOrderItems(HashSet<Product> products, Order order){
+    private Set<OrderItem> getOrderItems(Set<Product> products, Order order){
         Set<OrderItem> orderItems = new HashSet<>();
         for (var product:products
              ) {
@@ -79,5 +87,12 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderSer
                     .product(product).amount(product.getPrice()).order(order).build());
         }
         return orderItems;
+    }
+    private Store getStoreForOrder(String storeName){
+        try {
+            return storeService.getStoreByName(storeName).get();
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

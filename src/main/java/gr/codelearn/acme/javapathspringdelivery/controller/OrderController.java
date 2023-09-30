@@ -7,8 +7,10 @@ import gr.codelearn.acme.javapathspringdelivery.service.BaseService;
 import gr.codelearn.acme.javapathspringdelivery.service.OrderService;
 import gr.codelearn.acme.javapathspringdelivery.transfer.ApiResponse;
 import gr.codelearn.acme.javapathspringdelivery.transfer.CreateOrderForm;
+import gr.codelearn.acme.javapathspringdelivery.transfer.resource.OrderItemResource;
 import gr.codelearn.acme.javapathspringdelivery.transfer.resource.OrderResource;
-import jakarta.validation.Valid;
+import gr.codelearn.acme.javapathspringdelivery.transfer.resource.ProductResource;
+import gr.codelearn.acme.javapathspringdelivery.transfer.resource.UserResource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.concurrent.CompletableFuture;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequiredArgsConstructor
@@ -37,12 +41,24 @@ public class OrderController extends BaseController<Order, OrderResource>{
 
 
     @PostMapping("/initialize")
-    public CompletableFuture<ResponseEntity<ApiResponse<OrderResource>>> initializeOrder(@RequestBody CreateOrderForm createOrderForm){
-        return CompletableFuture.supplyAsync(()-> new ResponseEntity<>(
-                ApiResponse
-                        .<OrderResource>builder()
-                        .data(orderMapper.toResource(
-                                orderService.initiateOrderForUser(createOrderForm.getUserEmail(), createOrderForm.getStoreName(), createOrderForm.getProducts()))).build(),
-                HttpStatus.CREATED));
+    public ResponseEntity<ApiResponse<OrderResource>> initializeOrder(@RequestBody CreateOrderForm createOrderForm){
+            return new ResponseEntity<>(
+                    ApiResponse
+                            .<OrderResource>builder()
+                            .data(orderMapper.toResource(
+                                    orderService.initiateOrderForUser(orderMapper.toDomain(orderFormToResource(createOrderForm))))).build(),
+                    HttpStatus.CREATED);
+    }
+    private OrderResource orderFormToResource(CreateOrderForm createOrderForm){
+        var orderItems = new HashSet<OrderItemResource>();
+        for (var product:createOrderForm.getProducts()
+             ) {
+            orderItems.add(OrderItemResource.builder().product(ProductResource.builder().name(product).build()).build());
+        }
+        return OrderResource.builder()
+                .user(UserResource.builder().email(createOrderForm.getUserEmail()).build())
+                .store(createOrderForm.getStoreName())
+                .orderItems(orderItems)
+                .build();
     }
 }
