@@ -11,7 +11,6 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @ToString(callSuper = true)
-@Builder
 public class ProductResource extends BaseResource{
     private String serialNo;
     private String name;

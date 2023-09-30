@@ -10,7 +10,6 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @ToString(callSuper = true)
-@Builder
 public class OrderItemResource {
     private ProductResource product;
     private Integer quantity;

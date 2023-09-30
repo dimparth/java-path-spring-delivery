@@ -22,7 +22,8 @@ public class ProductServiceImpl extends BaseServiceImpl<Product> implements Prod
     }
     @Override
     public List<Product> findAll(){
-        return productRepository.findAllFetching();
+        var res =productRepository.findAllFetching();
+        return res;
     }
     @Override
     public List<Product> createAll(final List<Product> items) {

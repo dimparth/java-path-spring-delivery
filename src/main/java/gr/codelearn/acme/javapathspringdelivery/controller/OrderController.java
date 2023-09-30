@@ -1,16 +1,14 @@
 package gr.codelearn.acme.javapathspringdelivery.controller;
 
 import gr.codelearn.acme.javapathspringdelivery.domain.Order;
+import gr.codelearn.acme.javapathspringdelivery.domain.ProductCategory;
 import gr.codelearn.acme.javapathspringdelivery.mapper.BaseMapper;
 import gr.codelearn.acme.javapathspringdelivery.mapper.OrderMapper;
 import gr.codelearn.acme.javapathspringdelivery.service.BaseService;
 import gr.codelearn.acme.javapathspringdelivery.service.OrderService;
 import gr.codelearn.acme.javapathspringdelivery.transfer.ApiResponse;
 import gr.codelearn.acme.javapathspringdelivery.transfer.CreateOrderForm;
-import gr.codelearn.acme.javapathspringdelivery.transfer.resource.OrderItemResource;
-import gr.codelearn.acme.javapathspringdelivery.transfer.resource.OrderResource;
-import gr.codelearn.acme.javapathspringdelivery.transfer.resource.ProductResource;
-import gr.codelearn.acme.javapathspringdelivery.transfer.resource.UserResource;
+import gr.codelearn.acme.javapathspringdelivery.transfer.resource.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,12 +51,19 @@ public class OrderController extends BaseController<Order, OrderResource>{
         var orderItems = new HashSet<OrderItemResource>();
         for (var product:createOrderForm.getProducts()
              ) {
-            orderItems.add(OrderItemResource.builder().product(ProductResource.builder().name(product).build()).build());
+            var pr = new ProductResource();
+            pr.setName(product);
+            var oir = new OrderItemResource();
+            oir.setProduct(pr);
+            orderItems.add(oir);
         }
-        return OrderResource.builder()
-                .user(UserResource.builder().email(createOrderForm.getUserEmail()).build())
-                .store(createOrderForm.getStoreName())
-                .orderItems(orderItems)
-                .build();
+        var ur = new UserResource();
+        ur.setEmail(createOrderForm.getUserEmail());
+        var or = new OrderResource();
+        or.setUser(ur);
+        or.setStore(createOrderForm.getStoreName());
+        or.setOrderItems(orderItems);
+
+        return or;
     }
 }

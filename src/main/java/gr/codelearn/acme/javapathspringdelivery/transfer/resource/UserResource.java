@@ -11,7 +11,6 @@ import java.util.List;
 @Getter
 @Setter
 @ToString(callSuper = true)
-@Builder
 public class UserResource extends BaseResource {
     private String email;
     private String firstname;

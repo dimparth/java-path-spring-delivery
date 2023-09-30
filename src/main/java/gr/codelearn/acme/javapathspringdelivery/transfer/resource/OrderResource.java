@@ -13,7 +13,6 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString(callSuper = true)
-@Builder
 public class OrderResource extends BaseResource{
     private UserResource user;
     @ToString.Exclude
