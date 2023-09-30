@@ -66,14 +66,9 @@ public class SampleDataInitializer extends BaseComponent implements CommandLineR
         logger.trace("Created products for all categories");
 
         var burgerStoreProducts = new HashSet<>(burgers);
-        burgerStoreProducts.addAll(softDrinks);
-        burgerStoreProducts.addAll(alcoholDrinks);
+
 
         var italianStoreProducts = new HashSet<>(pasta);
-        italianStoreProducts.addAll(pizza);
-        italianStoreProducts.addAll(desserts);
-        italianStoreProducts.addAll(alcoholDrinks);
-        italianStoreProducts.addAll(softDrinks);
 
         var fastFoodProducts = new HashSet<>(souvlakia);
         fastFoodProducts.addAll(softDrinks);
@@ -98,7 +93,7 @@ public class SampleDataInitializer extends BaseComponent implements CommandLineR
         );
         logger.trace("Created store {}", storeDesserts);
 
-        var ordersItalian = List.of(getOrderObject("dim@sample.com", "Joey's", List.of("Spaghetti Bolognese", "Beer", "Tiramissou"))
+        var ordersItalian = List.of(getOrderObject("dim@sample.com", "Joey's", List.of("Spaghetti Bolognese"))
                 //,
                 //getOrderObject("nikos@sample.com", "Joey's", List.of("Spaghetti Napolitana", "Wine", "Pizza di Pollo")),
                 //getOrderObject("giorgos@sample.com", "Joey's", List.of("BlackWhite Crepe", "Pizza Margharita"))
@@ -109,18 +104,18 @@ public class SampleDataInitializer extends BaseComponent implements CommandLineR
                 }
         );
 
-        var ordersBurger = List.of(getOrderObject("dim@sample.com", "Goodik", List.of("BigKahunaBurger", "RoyaleWithCheese", "Sprite"))
+        var ordersBurger = List.of(getOrderObject("dim@sample.com", "Goodik", List.of("BigKahunaBurger", "RoyaleWithCheese"))
                 //,
                 //getOrderObject("nikos@sample.com", "Goodik", List.of("BigMac", "Cola"))
         );
         ordersBurger.forEach(order->{
-            //orderService.checkoutOrder(orderService.initiateOrderForUser(order));
+            orderService.checkoutOrder(orderService.initiateOrderForUser(order));
             logger.trace("Initiated order: {}", order);
         });
 
         var ordersSouvlakia = List.of(getOrderObject("dim@sample.com", "Souvlatzidiko", List.of("Skepasti")));
         ordersSouvlakia.forEach(or->{
-            //orderService.initiateOrderForUser(or);
+            orderService.initiateOrderForUser(or);
             logger.trace("Initiated order: {}", or);
         });
 
