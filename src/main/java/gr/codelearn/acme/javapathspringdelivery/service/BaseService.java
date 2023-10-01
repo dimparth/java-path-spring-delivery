@@ -1,6 +1,9 @@
 package gr.codelearn.acme.javapathspringdelivery.service;
 
+import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
+
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public interface BaseService<T, K> {
     List<T> createAll(final T... items);
@@ -18,7 +21,8 @@ public interface BaseService<T, K> {
 
     T get(K id);
 
-    List<T> findAll();
+    @TimeLimiter(name = "basicTimeout")
+    CompletableFuture<List<T>> findAll();
 
     Long count();
 }

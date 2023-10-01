@@ -96,7 +96,7 @@ public class SampleDataInitializer extends BaseComponent implements CommandLineR
         );
         logger.trace("Created store {}", storeDesserts);
 
-        var ordersItalian = List.of(getOrderObject("dim@sample.com", "Joey's", List.of("Spaghetti Bolognese"))
+        var ordersItalian = List.of(getOrderObject("dim@sample.com", "Joey's", List.of("Spaghetti Bolognese", "Spaghetti Bolognese"))
                 //,
                 //getOrderObject("nikos@sample.com", "Joey's", List.of("Spaghetti Napolitana")),
                 //getOrderObject("giorgos@sample.com", "Joey's", List.of("Pizza di Pollo"))
@@ -152,7 +152,7 @@ public class SampleDataInitializer extends BaseComponent implements CommandLineR
         }
         return gr.codelearn.acme.javapathspringdelivery.domain.Order.builder()
                 .user(User.builder().email(email).build())
-                //.store(Store.builder().name(storeName).build())
+                .paymentMethod(PaymentMethod.CASH)
                 .orderItems(orderItems)
                 .build();
     }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 public abstract class BaseController<T extends BaseModel, R extends BaseResource> extends BaseComponent {
 
@@ -27,9 +28,9 @@ public abstract class BaseController<T extends BaseModel, R extends BaseResource
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<R>>> findAll() {
+    public ResponseEntity<ApiResponse<List<R>>> findAll() throws ExecutionException, InterruptedException {
         return ResponseEntity.ok(
-                ApiResponse.<List<R>>builder().data(getMapper().toResources(getBaseService().findAll())).build());
+                ApiResponse.<List<R>>builder().data(getMapper().toResources(getBaseService().findAll().get())).build());
     }
 
     @PostMapping

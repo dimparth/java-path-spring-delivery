@@ -13,8 +13,8 @@ public class TimeLimiterCustomConfig {
     @Bean
     public TimeLimiter timeLimiter() {
         TimeLimiterConfig config = TimeLimiterConfig.custom()
-                .timeoutDuration(Duration.ofMillis(200)) // Set the timeout duration (e.g., 200 ms)
-                .cancelRunningFuture(true) // Cancel the running future on timeout
+                .timeoutDuration(Duration.ofMillis(200))
+                .cancelRunningFuture(true)
                 .build();
 
         return TimeLimiter.of("basicTimeout", config);

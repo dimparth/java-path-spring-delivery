@@ -10,9 +10,4 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring", uses = {UserMapper.class, OrderItemMapper.class}, config = IgnoreUnmappedConfig.class)
 public interface OrderMapper extends BaseMapper<Order, OrderResource> {
-    /*@Mapping(source = "store.name", target = "store")
-    OrderResource toResource(Order order);
-
-    @Mapping(source = "store", target = "store.name")
-    Order toDomain(OrderResource resource);*/
 }

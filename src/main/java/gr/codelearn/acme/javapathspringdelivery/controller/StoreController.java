@@ -9,7 +9,6 @@ import gr.codelearn.acme.javapathspringdelivery.transfer.ApiResponse;
 import gr.codelearn.acme.javapathspringdelivery.transfer.PopularStoreDto;
 import gr.codelearn.acme.javapathspringdelivery.transfer.PopularStoresPerCategoryDto;
 import gr.codelearn.acme.javapathspringdelivery.transfer.resource.StoreResource;
-import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 @RestController
@@ -44,9 +42,9 @@ public class StoreController extends BaseController<Store, StoreResource>{
     }
 
     @GetMapping(params = {"category"})
-    public ResponseEntity<ApiResponse<List<StoreResource>>> getStoresByCategory(@RequestParam("category") final String category){
+    public ResponseEntity<ApiResponse<List<StoreResource>>> getStoresByCategory(@RequestParam("category") final String category) throws ExecutionException, InterruptedException {
         return ResponseEntity.ok(
-                ApiResponse.<List<StoreResource>>builder().data(getMapper().toResources(storeService.getStoreByCategory(category))).build()
+                ApiResponse.<List<StoreResource>>builder().data(getMapper().toResources(storeService.getStoreByCategory(category).get())).build()
         );
     }
     @GetMapping(headers = "action=storesByPopularity")
@@ -61,18 +59,5 @@ public class StoreController extends BaseController<Store, StoreResource>{
         return ResponseEntity.ok(
                 ApiResponse.<List<PopularStoresPerCategoryDto>>builder().data(storeService.getPopularStoresPerCategory().get()).build()
         );
-    }
-
-    @GetMapping("/timeout")
-    @TimeLimiter(name = "basicTimeout")
-    public CompletableFuture<ResponseEntity<ApiResponse<List<StoreResource>>>> timeout(){
-        return CompletableFuture.supplyAsync(()->{
-            Long i =1L;
-            while(i>0){
-                i++;
-            }
-            return ResponseEntity.ok(
-                    ApiResponse.<List<StoreResource>>builder().data(getMapper().toResources((storeService.findAll()))).build());
-        });
     }
 }

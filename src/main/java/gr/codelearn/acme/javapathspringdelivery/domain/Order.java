@@ -33,10 +33,6 @@ public class Order extends BaseModel{
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
     private Date orderingDate;
-    /*@ToString.Exclude
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(referencedColumnName = "id")
-    private Store store;*/
     @Enumerated(EnumType.STRING)
     @Column(length = 15, nullable = false)
     private OrderStatus orderStatus;

@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED, rollbackFor = Exception.class)
 public abstract class BaseServiceImpl<T extends BaseModel> extends BaseComponent implements BaseService<T, Long> {
@@ -67,9 +68,11 @@ public abstract class BaseServiceImpl<T extends BaseModel> extends BaseComponent
 
     @Override
     @Transactional(readOnly = true)
-    public List<T> findAll() {
-        logger.trace("Retrieving all items.");
-        return getRepository().findAll();
+    public CompletableFuture<List<T>> findAll() {
+        return CompletableFuture.supplyAsync(()->{
+            logger.trace("Retrieving all items.");
+            return getRepository().findAll();
+        });
     }
 
     @Override

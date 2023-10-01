@@ -27,12 +27,15 @@ public class StoreServiceImpl extends BaseServiceImpl<Store> implements StoreSer
     }
 
     @Override
-    public List<Store> findAll(){
-        var res = storeRepository.findAllFetching();
-        return res;
+    public CompletableFuture<List<Store>> findAll(){
+        return CompletableFuture.supplyAsync(()->{
+            logger.trace("Retrieving all Stores");
+            var res = storeRepository.findAllFetching();
+            return res;
+        });
     }
 
-    //@TimeLimiter(name = "basicTimeout")
+    @TimeLimiter(name = "basicTimeout")
     public CompletableFuture<List<PopularStoreDto>> getPopularStores() {
         return CompletableFuture.supplyAsync(()->{
             var res = storeRepository.findMostFamousStores();
@@ -48,72 +51,36 @@ public class StoreServiceImpl extends BaseServiceImpl<Store> implements StoreSer
             return res;
         });
     }
-
-
-    /*public CompletableFuture<Store> createStore2(String storeName, String storeCategory, List<String> products){
-        var newStore = initializeStore(storeName, storeCategory, products);
-    }*/
     @Override
+    @TimeLimiter(name = "basicTimeout")
     public CompletableFuture<Store> createNewStoreWithProducts(final Store store) {
         return CompletableFuture.supplyAsync(()->{
             var initializedStore = initializeStore(store);
-
-
             store.getProducts().forEach(product -> product.setStore(initializedStore));
             Set<Product> products = new HashSet<>(productService.createAll(store.getProducts().stream().toList()));
-
-
             initializedStore.setProducts(products);
-
-
             return create(initializedStore);
         });
-        /*var initializedStore = initializeStore(store);
-
-        // Set the store for each product and create the products
-        store.getProducts().forEach(product -> product.setStore(initializedStore));
-        Set<Product> products = new HashSet<>(productService.createAll(store.getProducts().stream().toList()));
-
-        // Set the products for the store
-        initializedStore.setProducts(products);
-
-        // Save the store with updated products
-        return storeRepository.save(initializedStore);*/
-        /*StoreCategory storeCategoryByStoreType = storeCategoryService.getStoreCategoryByStoreType(store.getStoreCategory().getStoreType().toString());
-        if (storeCategoryByStoreType == null){
-            storeCategoryByStoreType = storeCategoryService.create(store.getStoreCategory());
-        }
-        store.setStoreCategory(storeCategoryByStoreType);
-        store =  storeRepository.save(store);
-        for (var prod:store.getProducts()
-        ) {
-            prod.setStore(store);
-        }
-        var products = new HashSet<>(productService.createAll(store.getProducts().stream().toList()));
-        store.setProducts(products);
-        *//*for (var prod:products
-             ) {
-            prod.setStore(store);
-            productService.create(prod);
-        }*//*
-        return storeRepository.save(store);*/
     }
 
+    @TimeLimiter(name = "basicTimeout")
     public CompletableFuture<Store> getStoreByName(final String name){
         return CompletableFuture.supplyAsync(()->{
+            logger.trace("Searching for store with name {}", name);
             var res = storeRepository.findByName(name);
             return res;
         });
     }
-    public List<Store> getStoreByCategory(String storeCategory){
-        var category = storeCategoryService.getStoreCategoryByStoreType(storeCategory).orElseThrow(NoSuchElementException::new);
-        return storeRepository.findByStoreCategory(category);
+    @TimeLimiter(name = "basicTimeout")
+    public CompletableFuture<List<Store>> getStoreByCategory(final String storeCategory){
+        return CompletableFuture.supplyAsync(()->{
+            logger.trace("Searching for stores belonging to category {}", storeCategory);
+            var category = storeCategoryService.getStoreCategoryByStoreType(storeCategory).orElseThrow(NoSuchElementException::new);
+            return storeRepository.findByStoreCategory(category);
+        });
     }
     public Store addOrderToStore(Store store, Order order){
-        var storeOrders = store.getOrders();//.stream().findFirst().isPresent() ? store.getOrders() : new ArrayList<Order>();
-        /*if (storeOrders == null){
-            storeOrders = new ArrayList<Order>();
-        }*/
+        var storeOrders = store.getOrders();
         storeOrders.add(order);
         store.setOrders(storeOrders);
         return store;

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 @RequiredArgsConstructor
@@ -21,9 +22,12 @@ public class ProductServiceImpl extends BaseServiceImpl<Product> implements Prod
         return productRepository;
     }
     @Override
-    public List<Product> findAll(){
-        var res =productRepository.findAllFetching();
-        return res;
+    public CompletableFuture<List<Product>> findAll(){
+        return CompletableFuture.supplyAsync(()->{
+            logger.trace("Retrieving all products");
+            var res =productRepository.findAllFetching();
+            return res;
+        });
     }
     @Override
     public List<Product> createAll(final List<Product> items) {
@@ -33,9 +37,6 @@ public class ProductServiceImpl extends BaseServiceImpl<Product> implements Prod
                     productCategoryService.getProductCategoryByProductType(item.getProductCategory().getProductType().toString())
                     :
                     productCategoryService.create(productCategoryService.getNonPersistentProductCategory(item.getProductCategory().getProductType().toString()));
-            /*if (productCategoryByProductType != null){
-                productCategoryByProductType = productCategoryService.create(productCategoryByProductType);
-            }*/
             item.setProductCategory(productCategoryByProductType);
         }
         return getRepository().saveAll(items);

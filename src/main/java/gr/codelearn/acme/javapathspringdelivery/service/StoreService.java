@@ -11,7 +11,7 @@ import java.util.concurrent.CompletableFuture;
 public interface StoreService extends BaseService<Store,Long> {
     CompletableFuture<Store> createNewStoreWithProducts(Store store);
     CompletableFuture<Store> getStoreByName(String name);
-    List<Store> getStoreByCategory(String storeCategory);
+    CompletableFuture<List<Store>> getStoreByCategory(String storeCategory);
     CompletableFuture<List<PopularStoreDto>> getPopularStores();
     CompletableFuture<List<PopularStoresPerCategoryDto>> getPopularStoresPerCategory();
     Store addOrderToStore(Store store, Order order);

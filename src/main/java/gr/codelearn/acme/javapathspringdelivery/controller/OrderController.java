@@ -1,14 +1,16 @@
 package gr.codelearn.acme.javapathspringdelivery.controller;
 
 import gr.codelearn.acme.javapathspringdelivery.domain.Order;
-import gr.codelearn.acme.javapathspringdelivery.domain.ProductCategory;
 import gr.codelearn.acme.javapathspringdelivery.mapper.BaseMapper;
+import gr.codelearn.acme.javapathspringdelivery.mapper.CustomFormMapper;
 import gr.codelearn.acme.javapathspringdelivery.mapper.OrderMapper;
 import gr.codelearn.acme.javapathspringdelivery.service.BaseService;
 import gr.codelearn.acme.javapathspringdelivery.service.OrderService;
 import gr.codelearn.acme.javapathspringdelivery.transfer.ApiResponse;
+import gr.codelearn.acme.javapathspringdelivery.transfer.CheckoutOrderForm;
 import gr.codelearn.acme.javapathspringdelivery.transfer.CreateOrderForm;
-import gr.codelearn.acme.javapathspringdelivery.transfer.resource.*;
+import gr.codelearn.acme.javapathspringdelivery.transfer.resource.OrderResource;
+import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.concurrent.ExecutionException;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,6 +27,7 @@ import java.util.concurrent.ExecutionException;
 public class OrderController extends BaseController<Order, OrderResource>{
     private final OrderService orderService;
     private final OrderMapper orderMapper;
+    private final CustomFormMapper customFormMapper;
     @Override
     protected BaseService<Order, Long> getBaseService() {
         return orderService;
@@ -37,33 +38,32 @@ public class OrderController extends BaseController<Order, OrderResource>{
         return orderMapper;
     }
 
-
     @PostMapping("/initialize")
-    public ResponseEntity<ApiResponse<OrderResource>> initializeOrder(@RequestBody CreateOrderForm createOrderForm){
+    @TimeLimiter(name = "basicTimeout")
+    public CompletableFuture<ResponseEntity<ApiResponse<OrderResource>>> initializeOrder(@RequestBody CreateOrderForm createOrderForm){
+        return CompletableFuture.supplyAsync(()->{
             return new ResponseEntity<>(
                     ApiResponse
                             .<OrderResource>builder()
                             .data(orderMapper.toResource(
-                                    orderService.initiateOrderForUser(orderMapper.toDomain(orderFormToResource(createOrderForm))))).build(),
+                                    orderService.initiateOrderForUser(orderMapper.toDomain(customFormMapper.mapCreateOrderFormToOrderResource(createOrderForm))))).build(),
                     HttpStatus.CREATED);
-    }
-    private OrderResource orderFormToResource(CreateOrderForm createOrderForm){
-        var orderItems = new HashSet<OrderItemResource>();
-        for (var product:createOrderForm.getProducts()
-             ) {
-            var pr = new ProductResource();
-            pr.setName(product);
-            var oir = new OrderItemResource();
-            oir.setProduct(pr);
-            orderItems.add(oir);
-        }
-        var ur = new UserResource();
-        ur.setEmail(createOrderForm.getUserEmail());
-        var or = new OrderResource();
-        or.setUser(ur);
-        //or.setStore(createOrderForm.getStoreName());
-        or.setOrderItems(orderItems);
+        });
 
-        return or;
+    }
+    @PostMapping("/checkout")
+    @TimeLimiter(name = "basicTimeout")
+    public CompletableFuture<ResponseEntity<ApiResponse<OrderResource>>> checkoutOrder(@RequestBody CheckoutOrderForm checkoutOrderForm){
+        return CompletableFuture.supplyAsync(()->{
+            return new ResponseEntity<>(ApiResponse.<OrderResource>builder()
+                    .data(orderMapper.toResource(
+                            orderService.checkoutOrder(
+                                    orderMapper.toDomain(
+                                            customFormMapper.mapCheckoutOrderFormToOrderResource(checkoutOrderForm)
+                                    )
+                            )
+                    )
+                    ).build(),HttpStatus.ACCEPTED);
+        });
     }
 }
