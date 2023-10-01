@@ -14,12 +14,11 @@ import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequiredArgsConstructor
@@ -41,29 +40,28 @@ public class OrderController extends BaseController<Order, OrderResource>{
     @PostMapping("/initialize")
     @TimeLimiter(name = "basicTimeout")
     public CompletableFuture<ResponseEntity<ApiResponse<OrderResource>>> initializeOrder(@RequestBody CreateOrderForm createOrderForm){
-        return CompletableFuture.supplyAsync(()->{
-            return new ResponseEntity<>(
-                    ApiResponse
-                            .<OrderResource>builder()
-                            .data(orderMapper.toResource(
-                                    orderService.initiateOrderForUser(orderMapper.toDomain(customFormMapper.mapCreateOrderFormToOrderResource(createOrderForm))))).build(),
-                    HttpStatus.CREATED);
-        });
-
+        return CompletableFuture.supplyAsync(()-> new ResponseEntity<>(
+                ApiResponse
+                        .<OrderResource>builder()
+                        .data(orderMapper.toResource(
+                                orderService.initiateOrderForUser(orderMapper.toDomain(customFormMapper.mapCreateOrderFormToOrderResource(createOrderForm))))).build(),
+                HttpStatus.CREATED));
     }
     @PostMapping("/checkout")
     @TimeLimiter(name = "basicTimeout")
     public CompletableFuture<ResponseEntity<ApiResponse<OrderResource>>> checkoutOrder(@RequestBody CheckoutOrderForm checkoutOrderForm){
-        return CompletableFuture.supplyAsync(()->{
-            return new ResponseEntity<>(ApiResponse.<OrderResource>builder()
-                    .data(orderMapper.toResource(
-                            orderService.checkoutOrder(
-                                    orderMapper.toDomain(
-                                            customFormMapper.mapCheckoutOrderFormToOrderResource(checkoutOrderForm)
-                                    )
-                            )
-                    )
-                    ).build(),HttpStatus.ACCEPTED);
-        });
+        return CompletableFuture.supplyAsync(()-> new ResponseEntity<>(ApiResponse.<OrderResource>builder()
+                .data(orderMapper.toResource(
+                        orderService.checkoutOrder(
+                                orderMapper.toDomain(
+                                        customFormMapper.mapCheckoutOrderFormToOrderResource(checkoutOrderForm)
+                                )
+                        )
+                )
+                ).build(),HttpStatus.ACCEPTED));
+    }
+    @GetMapping(params = {"email"})
+    public ResponseEntity<ApiResponse<List<OrderResource>>> getOrdersByEmail(@RequestParam("email") final String email) throws ExecutionException, InterruptedException {
+        return ResponseEntity.ok(ApiResponse.<List<OrderResource>>builder().data(orderMapper.toResources(orderService.findOrdersByUserEmail(email).get())).build());
     }
 }

@@ -1,0 +1,1068 @@
+{
+	"info": {
+		"_postman_id": "b6236973-a5be-40f7-85d0-eda9653f7c5f",
+		"name": "New Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19675857"
+	},
+	"item": [
+		{
+			"name": "Create Sample User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n            \"id\": 1,\r\n            \"email\": \"sampleusr@sample.com\",\r\n            \"firstname\": \"Sample\",\r\n            \"lastname\": \"User\",\r\n            \"age\": 28,\r\n            \"address\": \"Address 81\",\r\n            \"phoneNumber\": \"21012345\",\r\n            \"orders\": null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7262/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7262",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Create Sample User",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n            \"id\": 1,\r\n            \"email\": \"sampleusr@sample.com\",\r\n            \"firstname\": \"Sample\",\r\n            \"lastname\": \"User\",\r\n            \"age\": 28,\r\n            \"address\": \"Address 81\",\r\n            \"phoneNumber\": \"21012345\",\r\n            \"orders\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7262/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7262",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"transactionId\": \"BC9E47C9C6E4400D9CD2EFC4D3D3E608\",\n    \"createdAt\": \"2023-10-01 09:38:26.672\",\n    \"data\": {\n        \"id\": 5,\n        \"email\": \"sampleusr@sample.com\",\n        \"firstname\": \"Sample\",\n        \"lastname\": \"User\",\n        \"age\": 28,\n        \"address\": \"Address 81\",\n        \"phoneNumber\": \"21012345\"\n    },\n    \"apiError\": null\n}"
+				}
+			]
+		},
+		{
+			"name": "Get all stores",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:7262/stores",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7262",
+					"path": [
+						"stores"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get all stores",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7262/stores",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7262",
+							"path": [
+								"stores"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"transactionId\": \"078590D2337D41BEBBA4985FF4C62021\",\n    \"createdAt\": \"2023-10-01 09:37:14.955\",\n    \"data\": [\n        {\n            \"id\": 1,\n            \"name\": \"Goodik\",\n            \"phoneNumber\": \"21019083\",\n            \"address\": \"Address 18\",\n            \"orders\": 3,\n            \"products\": [\n                {\n                    \"id\": 1,\n                    \"serialNo\": \"SN-1234\",\n                    \"name\": \"BigMac\",\n                    \"description\": \"Le Big Mac\",\n                    \"price\": 6.00,\n                    \"store\": \"Goodik\",\n                    \"productCategory\": {\n                        \"id\": 1,\n                        \"productType\": \"BURGER\"\n                    }\n                },\n                {\n                    \"id\": 2,\n                    \"serialNo\": \"SN-123\",\n                    \"name\": \"BigKahunaBurger\",\n                    \"description\": \"This is a tasty burger\",\n                    \"price\": 5.00,\n                    \"store\": \"Goodik\",\n                    \"productCategory\": {\n                        \"id\": 1,\n                        \"productType\": \"BURGER\"\n                    }\n                },\n                {\n                    \"id\": 3,\n                    \"serialNo\": \"SN-1235\",\n                    \"name\": \"RoyaleWithCheese\",\n                    \"description\": \"Because of the metric system\",\n                    \"price\": 3.00,\n                    \"store\": \"Goodik\",\n                    \"productCategory\": {\n                        \"id\": 1,\n                        \"productType\": \"BURGER\"\n                    }\n                }\n            ],\n            \"storeCategory\": {\n                \"id\": 1,\n                \"storeType\": \"BURGER_HOUSE\"\n            }\n        },\n        {\n            \"id\": 2,\n            \"name\": \"Souvlatzidiko\",\n            \"phoneNumber\": \"21089789\",\n            \"address\": \"Address 30\",\n            \"orders\": 0,\n            \"products\": [\n                {\n                    \"id\": 8,\n                    \"serialNo\": \"SN-3456567457\",\n                    \"name\": \"Sprite\",\n                    \"description\": \"Tasty beverage to wash your food down!\",\n                    \"price\": 2.00,\n                    \"store\": \"Souvlatzidiko\",\n                    \"productCategory\": {\n                        \"id\": 3,\n                        \"productType\": \"SOFT_DRINK\"\n                    }\n                },\n                {\n                    \"id\": 4,\n                    \"serialNo\": \"SN-4238905673468\",\n                    \"name\": \"Skepasti\",\n                    \"description\": \"Skepasti me souvlaki xoirino\",\n                    \"price\": 10.00,\n                    \"store\": \"Souvlatzidiko\",\n                    \"productCategory\": {\n                        \"id\": 2,\n                        \"productType\": \"SOUVLAKI\"\n                    }\n                },\n                {\n                    \"id\": 5,\n                    \"serialNo\": \"SN-23857238956239\",\n                    \"name\": \"Souvlaki Xoirino\",\n                    \"description\": \"Paradosiako xoirino souvlaki\",\n                    \"price\": 2.00,\n                    \"store\": \"Souvlatzidiko\",\n                    \"productCategory\": {\n                        \"id\": 2,\n                        \"productType\": \"SOUVLAKI\"\n                    }\n                },\n                {\n                    \"id\": 6,\n                    \"serialNo\": \"SN-5806753467834578\",\n                    \"name\": \"Pita Gyros Xoirinos\",\n                    \"description\": \"Paradosiaki pita gyro xoirino\",\n                    \"price\": 4.00,\n                    \"store\": \"Souvlatzidiko\",\n                    \"productCategory\": {\n                        \"id\": 2,\n                        \"productType\": \"SOUVLAKI\"\n                    }\n                },\n                {\n                    \"id\": 7,\n                    \"serialNo\": \"SN-2342354646\",\n                    \"name\": \"Sparkling Water\",\n                    \"description\": \"Plain sparkling water\",\n                    \"price\": 0.50,\n                    \"store\": \"Souvlatzidiko\",\n                    \"productCategory\": {\n                        \"id\": 3,\n                        \"productType\": \"SOFT_DRINK\"\n                    }\n                },\n                {\n                    \"id\": 9,\n                    \"serialNo\": \"SN-34i0634580963478\",\n                    \"name\": \"Cola\",\n                    \"description\": \"our famous cola!\",\n                    \"price\": 1.00,\n                    \"store\": \"Souvlatzidiko\",\n                    \"productCategory\": {\n                        \"id\": 3,\n                        \"productType\": \"SOFT_DRINK\"\n                    }\n                }\n            ],\n            \"storeCategory\": {\n                \"id\": 2,\n                \"storeType\": \"FAST_FOOD\"\n            }\n        },\n        {\n            \"id\": 3,\n            \"name\": \"Joey's\",\n            \"phoneNumber\": \"211389753\",\n            \"address\": \"Address 89\",\n            \"orders\": 2,\n            \"products\": [\n                {\n                    \"id\": 18,\n                    \"serialNo\": \"SN-1564896748\",\n                    \"name\": \"Spaghetti Napolitana\",\n                    \"description\": \"Delicious and light on calories!\",\n                    \"price\": 10.00,\n                    \"store\": \"Joey's\",\n                    \"productCategory\": {\n                        \"id\": 6,\n                        \"productType\": \"PASTA\"\n                    }\n                },\n                {\n                    \"id\": 16,\n                    \"serialNo\": \"SN-5648748\",\n                    \"name\": \"Spaghetti Bolognese\",\n                    \"description\": \"Favourite dish of a famous Greek musician!\",\n                    \"price\": 20.00,\n                    \"store\": \"Joey's\",\n                    \"productCategory\": {\n                        \"id\": 6,\n                        \"productType\": \"PASTA\"\n                    }\n                },\n                {\n                    \"id\": 24,\n                    \"serialNo\": \"SN-15648964\",\n                    \"name\": \"Pizza di Pollo\",\n                    \"description\": \"Pizza with parmesan cheese, tomato sauce and chicken\",\n                    \"price\": 20.00,\n                    \"store\": \"Joey's\",\n                    \"productCategory\": {\n                        \"id\": 7,\n                        \"productType\": \"PIZZA\"\n                    }\n                },\n                {\n                    \"id\": 23,\n                    \"serialNo\": \"SN-2352346346\",\n                    \"name\": \"Pizza BBQ\",\n                    \"description\": \"Pizza with bbq sauce, gouda cheese and bacon\",\n                    \"price\": 15.00,\n                    \"store\": \"Joey's\",\n                    \"productCategory\": {\n                        \"id\": 7,\n                        \"productType\": \"PIZZA\"\n                    }\n                },\n                {\n                    \"id\": 17,\n                    \"serialNo\": \"SN-15645669\",\n                    \"name\": \"Spaghetti Carbonara\",\n                    \"description\": \"The traditional recipe with eggs and beef\",\n                    \"price\": 15.00,\n                    \"store\": \"Joey's\",\n                    \"productCategory\": {\n                        \"id\": 6,\n                        \"productType\": \"PASTA\"\n                    }\n                },\n                {\n                    \"id\": 22,\n                    \"serialNo\": \"SN-2353474567568\",\n                    \"name\": \"Pizza Margharita\",\n                    \"description\": \"The simplest of pizzas, also light on calories\",\n                    \"price\": 10.00,\n                    \"store\": \"Joey's\",\n                    \"productCategory\": {\n                        \"id\": 7,\n                        \"productType\": \"PIZZA\"\n                    }\n                }\n            ],\n            \"storeCategory\": {\n                \"id\": 3,\n                \"storeType\": \"ITALIAN\"\n            }\n        },\n        {\n            \"id\": 4,\n            \"name\": \"Vesuvio\",\n            \"phoneNumber\": \"2113895416\",\n            \"address\": \"Address 52\",\n            \"orders\": 4,\n            \"products\": [\n                {\n                    \"id\": 21,\n                    \"serialNo\": \"SN-135467536\",\n                    \"name\": \"Pasticcio\",\n                    \"description\": \"Delicious!\",\n                    \"price\": 10.00,\n                    \"store\": \"Vesuvio\",\n                    \"productCategory\": {\n                        \"id\": 6,\n                        \"productType\": \"PASTA\"\n                    }\n                },\n                {\n                    \"id\": 19,\n                    \"serialNo\": \"SN-235246745\",\n                    \"name\": \"Ravioli\",\n                    \"description\": \"Delicious ravioli.\",\n                    \"price\": 20.00,\n                    \"store\": \"Vesuvio\",\n                    \"productCategory\": {\n                        \"id\": 6,\n                        \"productType\": \"PASTA\"\n                    }\n                },\n                {\n                    \"id\": 20,\n                    \"serialNo\": \"SN-125243578\",\n                    \"name\": \"Lasagna\",\n                    \"description\": \"Simply lovely\",\n                    \"price\": 15.00,\n                    \"store\": \"Vesuvio\",\n                    \"productCategory\": {\n                        \"id\": 6,\n                        \"productType\": \"PASTA\"\n                    }\n                }\n            ],\n            \"storeCategory\": {\n                \"id\": 3,\n                \"storeType\": \"ITALIAN\"\n            }\n        },\n        {\n            \"id\": 5,\n            \"name\": \"Patisserie\",\n            \"phoneNumber\": \"211382734\",\n            \"address\": \"Address 98\",\n            \"orders\": 1,\n            \"products\": [\n                {\n                    \"id\": 13,\n                    \"serialNo\": \"SN-1564564\",\n                    \"name\": \"BlackWhite Crepe\",\n                    \"description\": \"Crepe with black and white chocolate\",\n                    \"price\": 12.00,\n                    \"store\": \"Patisserie\",\n                    \"productCategory\": {\n                        \"id\": 5,\n                        \"productType\": \"DESSERT\"\n                    }\n                },\n                {\n                    \"id\": 15,\n                    \"serialNo\": \"SN-124856\",\n                    \"name\": \"Tiramissou\",\n                    \"description\": \"Delicious tiramissou\",\n                    \"price\": 10.00,\n                    \"store\": \"Patisserie\",\n                    \"productCategory\": {\n                        \"id\": 5,\n                        \"productType\": \"DESSERT\"\n                    }\n                },\n                {\n                    \"id\": 14,\n                    \"serialNo\": \"SN-564856\",\n                    \"name\": \"Chocolate Cookie\",\n                    \"description\": \"Tasty chocolate cookies\",\n                    \"price\": 5.00,\n                    \"store\": \"Patisserie\",\n                    \"productCategory\": {\n                        \"id\": 5,\n                        \"productType\": \"DESSERT\"\n                    }\n                }\n            ],\n            \"storeCategory\": {\n                \"id\": 4,\n                \"storeType\": \"PATISSERIE\"\n            }\n        }\n    ],\n    \"apiError\": null\n}"
+				}
+			]
+		},
+		{
+			"name": "Get all orders",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:7262/orders",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7262",
+					"path": [
+						"orders"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get all orders",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7262/orders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7262",
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"transactionId\": \"28217E0A2FE74B35A7B3561729828683\",\n    \"createdAt\": \"2023-10-01 09:36:58.647\",\n    \"data\": [\n        {\n            \"id\": 1,\n            \"user\": {\n                \"id\": 1,\n                \"email\": \"dim@sample.com\",\n                \"firstname\": \"Dimitris\",\n                \"lastname\": \"Parthenis\",\n                \"age\": 28,\n                \"address\": \"Address 81\",\n                \"phoneNumber\": \"21012345\"\n            },\n            \"orderItems\": [\n                {\n                    \"product\": {\n                        \"id\": 16,\n                        \"serialNo\": \"SN-5648748\",\n                        \"name\": \"Spaghetti Bolognese\",\n                        \"description\": \"Favourite dish of a famous Greek musician!\",\n                        \"price\": 20.00,\n                        \"store\": \"Joey's\",\n                        \"productCategory\": {\n                            \"id\": 6,\n                            \"productType\": \"PASTA\"\n                        }\n                    },\n                    \"quantity\": 2,\n                    \"amount\": 40.00\n                }\n            ],\n            \"paymentMethod\": \"CASH\",\n            \"orderingDate\": \"2023-10-01T21:35:11.080+00:00\",\n            \"orderStatus\": \"COMPLETED\"\n        },\n        {\n            \"id\": 2,\n            \"user\": {\n                \"id\": 4,\n                \"email\": \"giorgos@sample.com\",\n                \"firstname\": \"Giorgos\",\n                \"lastname\": \"Georgiou\",\n                \"age\": 30,\n                \"address\": \"Address 33\",\n                \"phoneNumber\": \"2113909\"\n            },\n            \"orderItems\": [\n                {\n                    \"product\": {\n                        \"id\": 24,\n                        \"serialNo\": \"SN-15648964\",\n                        \"name\": \"Pizza di Pollo\",\n                        \"description\": \"Pizza with parmesan cheese, tomato sauce and chicken\",\n                        \"price\": 20.00,\n                        \"store\": \"Joey's\",\n                        \"productCategory\": {\n                            \"id\": 7,\n                            \"productType\": \"PIZZA\"\n                        }\n                    },\n                    \"quantity\": 1,\n                    \"amount\": 20.00\n                }\n            ],\n            \"paymentMethod\": \"CASH\",\n            \"orderingDate\": \"2023-10-01T21:35:11.104+00:00\",\n            \"orderStatus\": \"COMPLETED\"\n        },\n        {\n            \"id\": 3,\n            \"user\": {\n                \"id\": 1,\n                \"email\": \"dim@sample.com\",\n                \"firstname\": \"Dimitris\",\n                \"lastname\": \"Parthenis\",\n                \"age\": 28,\n                \"address\": \"Address 81\",\n                \"phoneNumber\": \"21012345\"\n            },\n            \"orderItems\": [\n                {\n                    \"product\": {\n                        \"id\": 20,\n                        \"serialNo\": \"SN-125243578\",\n                        \"name\": \"Lasagna\",\n                        \"description\": \"Simply lovely\",\n                        \"price\": 15.00,\n                        \"store\": \"Vesuvio\",\n                        \"productCategory\": {\n                            \"id\": 6,\n                            \"productType\": \"PASTA\"\n                        }\n                    },\n                    \"quantity\": 1,\n                    \"amount\": 15.00\n                }\n            ],\n            \"paymentMethod\": \"CASH\",\n            \"orderingDate\": \"2023-10-01T21:35:11.117+00:00\",\n            \"orderStatus\": \"COMPLETED\"\n        },\n        {\n            \"id\": 4,\n            \"user\": {\n                \"id\": 2,\n                \"email\": \"nikos@sample.com\",\n                \"firstname\": \"Nikos\",\n                \"lastname\": \"Nikolaou\",\n                \"age\": 25,\n                \"address\": \"Address 28\",\n                \"phoneNumber\": \"21101234\"\n            },\n            \"orderItems\": [\n                {\n                    \"product\": {\n                        \"id\": 21,\n                        \"serialNo\": \"SN-135467536\",\n                        \"name\": \"Pasticcio\",\n                        \"description\": \"Delicious!\",\n                        \"price\": 10.00,\n                        \"store\": \"Vesuvio\",\n                        \"productCategory\": {\n                            \"id\": 6,\n                            \"productType\": \"PASTA\"\n                        }\n                    },\n                    \"quantity\": 1,\n                    \"amount\": 10.00\n                }\n            ],\n            \"paymentMethod\": \"CASH\",\n            \"orderingDate\": \"2023-10-01T21:35:11.127+00:00\",\n            \"orderStatus\": \"COMPLETED\"\n        },\n        {\n            \"id\": 5,\n            \"user\": {\n                \"id\": 4,\n                \"email\": \"giorgos@sample.com\",\n                \"firstname\": \"Giorgos\",\n                \"lastname\": \"Georgiou\",\n                \"age\": 30,\n                \"address\": \"Address 33\",\n                \"phoneNumber\": \"2113909\"\n            },\n            \"orderItems\": [\n                {\n                    \"product\": {\n                        \"id\": 21,\n                        \"serialNo\": \"SN-135467536\",\n                        \"name\": \"Pasticcio\",\n                        \"description\": \"Delicious!\",\n                        \"price\": 10.00,\n                        \"store\": \"Vesuvio\",\n                        \"productCategory\": {\n                            \"id\": 6,\n                            \"productType\": \"PASTA\"\n                        }\n                    },\n                    \"quantity\": 1,\n                    \"amount\": 10.00\n                }\n            ],\n            \"paymentMethod\": \"CASH\",\n            \"orderingDate\": \"2023-10-01T21:35:11.138+00:00\",\n            \"orderStatus\": \"COMPLETED\"\n        },\n        {\n            \"id\": 6,\n            \"user\": {\n                \"id\": 3,\n                \"email\": \"vasilis@sample.com\",\n                \"firstname\": \"Vasilis\",\n                \"lastname\": \"Vasiliou\",\n                \"age\": 30,\n                \"address\": \"Address 31\",\n                \"phoneNumber\": \"2113904\"\n            },\n            \"orderItems\": [\n                {\n                    \"product\": {\n                        \"id\": 21,\n                        \"serialNo\": \"SN-135467536\",\n                        \"name\": \"Pasticcio\",\n                        \"description\": \"Delicious!\",\n                        \"price\": 10.00,\n                        \"store\": \"Vesuvio\",\n                        \"productCategory\": {\n                            \"id\": 6,\n                            \"productType\": \"PASTA\"\n                        }\n                    },\n                    \"quantity\": 1,\n                    \"amount\": 10.00\n                }\n            ],\n            \"paymentMethod\": \"CASH\",\n            \"orderingDate\": \"2023-10-01T21:35:11.149+00:00\",\n            \"orderStatus\": \"COMPLETED\"\n        },\n        {\n            \"id\": 7,\n            \"user\": {\n                \"id\": 1,\n                \"email\": \"dim@sample.com\",\n                \"firstname\": \"Dimitris\",\n                \"lastname\": \"Parthenis\",\n                \"age\": 28,\n                \"address\": \"Address 81\",\n                \"phoneNumber\": \"21012345\"\n            },\n            \"orderItems\": [\n                {\n                    \"product\": {\n                        \"id\": 2,\n                        \"serialNo\": \"SN-123\",\n                        \"name\": \"BigKahunaBurger\",\n                        \"description\": \"This is a tasty burger\",\n                        \"price\": 5.00,\n                        \"store\": \"Goodik\",\n                        \"productCategory\": {\n                            \"id\": 1,\n                            \"productType\": \"BURGER\"\n                        }\n                    },\n                    \"quantity\": 1,\n                    \"amount\": 5.00\n                },\n                {\n                    \"product\": {\n                        \"id\": 3,\n                        \"serialNo\": \"SN-1235\",\n                        \"name\": \"RoyaleWithCheese\",\n                        \"description\": \"Because of the metric system\",\n                        \"price\": 3.00,\n                        \"store\": \"Goodik\",\n                        \"productCategory\": {\n                            \"id\": 1,\n                            \"productType\": \"BURGER\"\n                        }\n                    },\n                    \"quantity\": 1,\n                    \"amount\": 3.00\n                }\n            ],\n            \"paymentMethod\": \"CASH\",\n            \"orderingDate\": \"2023-10-01T21:35:11.162+00:00\",\n            \"orderStatus\": \"COMPLETED\"\n        },\n        {\n            \"id\": 8,\n            \"user\": {\n                \"id\": 2,\n                \"email\": \"nikos@sample.com\",\n                \"firstname\": \"Nikos\",\n                \"lastname\": \"Nikolaou\",\n                \"age\": 25,\n                \"address\": \"Address 28\",\n                \"phoneNumber\": \"21101234\"\n            },\n            \"orderItems\": [\n                {\n                    \"product\": {\n                        \"id\": 1,\n                        \"serialNo\": \"SN-1234\",\n                        \"name\": \"BigMac\",\n                        \"description\": \"Le Big Mac\",\n                        \"price\": 6.00,\n                        \"store\": \"Goodik\",\n                        \"productCategory\": {\n                            \"id\": 1,\n                            \"productType\": \"BURGER\"\n                        }\n                    },\n                    \"quantity\": 1,\n                    \"amount\": 6.00\n                }\n            ],\n            \"paymentMethod\": \"CASH\",\n            \"orderingDate\": \"2023-10-01T21:35:11.174+00:00\",\n            \"orderStatus\": \"COMPLETED\"\n        },\n        {\n            \"id\": 9,\n            \"user\": {\n                \"id\": 2,\n                \"email\": \"nikos@sample.com\",\n                \"firstname\": \"Nikos\",\n                \"lastname\": \"Nikolaou\",\n                \"age\": 25,\n                \"address\": \"Address 28\",\n                \"phoneNumber\": \"21101234\"\n            },\n            \"orderItems\": [\n                {\n                    \"product\": {\n                        \"id\": 1,\n                        \"serialNo\": \"SN-1234\",\n                        \"name\": \"BigMac\",\n                        \"description\": \"Le Big Mac\",\n                        \"price\": 6.00,\n                        \"store\": \"Goodik\",\n                        \"productCategory\": {\n                            \"id\": 1,\n                            \"productType\": \"BURGER\"\n                        }\n                    },\n                    \"quantity\": 1,\n                    \"amount\": 6.00\n                }\n            ],\n            \"paymentMethod\": \"CASH\",\n            \"orderingDate\": \"2023-10-01T21:35:11.185+00:00\",\n            \"orderStatus\": \"COMPLETED\"\n        },\n        {\n            \"id\": 12,\n            \"user\": {\n                \"id\": 1,\n                \"email\": \"dim@sample.com\",\n                \"firstname\": \"Dimitris\",\n                \"lastname\": \"Parthenis\",\n                \"age\": 28,\n                \"address\": \"Address 81\",\n                \"phoneNumber\": \"21012345\"\n            },\n            \"orderItems\": [\n                {\n                    \"product\": {\n                        \"id\": 15,\n                        \"serialNo\": \"SN-124856\",\n                        \"name\": \"Tiramissou\",\n                        \"description\": \"Delicious tiramissou\",\n                        \"price\": 10.00,\n                        \"store\": \"Patisserie\",\n                        \"productCategory\": {\n                            \"id\": 5,\n                            \"productType\": \"DESSERT\"\n                        }\n                    },\n                    \"quantity\": 1,\n                    \"amount\": 10.00\n                }\n            ],\n            \"paymentMethod\": \"CASH\",\n            \"orderingDate\": \"2023-10-01T21:35:11.235+00:00\",\n            \"orderStatus\": \"ACTIVE\"\n        }\n    ],\n    \"apiError\": null\n}"
+				}
+			]
+		},
+		{
+			"name": "Get store by name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:7262/stores?name=Vesuvio",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7262",
+					"path": [
+						"stores"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Vesuvio"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get store by name",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7262/stores?name=Vesuvio",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7262",
+							"path": [
+								"stores"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "Vesuvio"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"transactionId\": \"426C9F30058C4BF9981FD11AAACE4234\",\n    \"createdAt\": \"2023-10-01 09:36:10.881\",\n    \"data\": {\n        \"id\": 4,\n        \"name\": \"Vesuvio\",\n        \"phoneNumber\": \"2113895416\",\n        \"address\": \"Address 52\",\n        \"orders\": 4,\n        \"products\": [\n            {\n                \"id\": 21,\n                \"serialNo\": \"SN-135467536\",\n                \"name\": \"Pasticcio\",\n                \"description\": \"Delicious!\",\n                \"price\": 10.00,\n                \"store\": \"Vesuvio\",\n                \"productCategory\": {\n                    \"id\": 6,\n                    \"productType\": \"PASTA\"\n                }\n            },\n            {\n                \"id\": 20,\n                \"serialNo\": \"SN-125243578\",\n                \"name\": \"Lasagna\",\n                \"description\": \"Simply lovely\",\n                \"price\": 15.00,\n                \"store\": \"Vesuvio\",\n                \"productCategory\": {\n                    \"id\": 6,\n                    \"productType\": \"PASTA\"\n                }\n            },\n            {\n                \"id\": 19,\n                \"serialNo\": \"SN-235246745\",\n                \"name\": \"Ravioli\",\n                \"description\": \"Delicious ravioli.\",\n                \"price\": 20.00,\n                \"store\": \"Vesuvio\",\n                \"productCategory\": {\n                    \"id\": 6,\n                    \"productType\": \"PASTA\"\n                }\n            }\n        ],\n        \"storeCategory\": {\n            \"id\": 3,\n            \"storeType\": \"ITALIAN\"\n        }\n    },\n    \"apiError\": null\n}"
+				}
+			]
+		},
+		{
+			"name": "Get stores per category",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:7262/stores?category=italian",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7262",
+					"path": [
+						"stores"
+					],
+					"query": [
+						{
+							"key": "category",
+							"value": "italian"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get stores per category",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7262/stores?category=italian",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7262",
+							"path": [
+								"stores"
+							],
+							"query": [
+								{
+									"key": "category",
+									"value": "italian"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"transactionId\": \"805A6B267BF6463E90B7D68416710978\",\n    \"createdAt\": \"2023-10-01 09:35:53.426\",\n    \"data\": [\n        {\n            \"id\": 3,\n            \"name\": \"Joey's\",\n            \"phoneNumber\": \"211389753\",\n            \"address\": \"Address 89\",\n            \"orders\": 2,\n            \"products\": [\n                {\n                    \"id\": 16,\n                    \"serialNo\": \"SN-5648748\",\n                    \"name\": \"Spaghetti Bolognese\",\n                    \"description\": \"Favourite dish of a famous Greek musician!\",\n                    \"price\": 20.00,\n                    \"store\": \"Joey's\",\n                    \"productCategory\": {\n                        \"id\": 6,\n                        \"productType\": \"PASTA\"\n                    }\n                },\n                {\n                    \"id\": 18,\n                    \"serialNo\": \"SN-1564896748\",\n                    \"name\": \"Spaghetti Napolitana\",\n                    \"description\": \"Delicious and light on calories!\",\n                    \"price\": 10.00,\n                    \"store\": \"Joey's\",\n                    \"productCategory\": {\n                        \"id\": 6,\n                        \"productType\": \"PASTA\"\n                    }\n                },\n                {\n                    \"id\": 23,\n                    \"serialNo\": \"SN-2352346346\",\n                    \"name\": \"Pizza BBQ\",\n                    \"description\": \"Pizza with bbq sauce, gouda cheese and bacon\",\n                    \"price\": 15.00,\n                    \"store\": \"Joey's\",\n                    \"productCategory\": {\n                        \"id\": 7,\n                        \"productType\": \"PIZZA\"\n                    }\n                },\n                {\n                    \"id\": 24,\n                    \"serialNo\": \"SN-15648964\",\n                    \"name\": \"Pizza di Pollo\",\n                    \"description\": \"Pizza with parmesan cheese, tomato sauce and chicken\",\n                    \"price\": 20.00,\n                    \"store\": \"Joey's\",\n                    \"productCategory\": {\n                        \"id\": 7,\n                        \"productType\": \"PIZZA\"\n                    }\n                },\n                {\n                    \"id\": 17,\n                    \"serialNo\": \"SN-15645669\",\n                    \"name\": \"Spaghetti Carbonara\",\n                    \"description\": \"The traditional recipe with eggs and beef\",\n                    \"price\": 15.00,\n                    \"store\": \"Joey's\",\n                    \"productCategory\": {\n                        \"id\": 6,\n                        \"productType\": \"PASTA\"\n                    }\n                },\n                {\n                    \"id\": 22,\n                    \"serialNo\": \"SN-2353474567568\",\n                    \"name\": \"Pizza Margharita\",\n                    \"description\": \"The simplest of pizzas, also light on calories\",\n                    \"price\": 10.00,\n                    \"store\": \"Joey's\",\n                    \"productCategory\": {\n                        \"id\": 7,\n                        \"productType\": \"PIZZA\"\n                    }\n                }\n            ],\n            \"storeCategory\": {\n                \"id\": 3,\n                \"storeType\": \"ITALIAN\"\n            }\n        },\n        {\n            \"id\": 4,\n            \"name\": \"Vesuvio\",\n            \"phoneNumber\": \"2113895416\",\n            \"address\": \"Address 52\",\n            \"orders\": 4,\n            \"products\": [\n                {\n                    \"id\": 21,\n                    \"serialNo\": \"SN-135467536\",\n                    \"name\": \"Pasticcio\",\n                    \"description\": \"Delicious!\",\n                    \"price\": 10.00,\n                    \"store\": \"Vesuvio\",\n                    \"productCategory\": {\n                        \"id\": 6,\n                        \"productType\": \"PASTA\"\n                    }\n                },\n                {\n                    \"id\": 20,\n                    \"serialNo\": \"SN-125243578\",\n                    \"name\": \"Lasagna\",\n                    \"description\": \"Simply lovely\",\n                    \"price\": 15.00,\n                    \"store\": \"Vesuvio\",\n                    \"productCategory\": {\n                        \"id\": 6,\n                        \"productType\": \"PASTA\"\n                    }\n                },\n                {\n                    \"id\": 19,\n                    \"serialNo\": \"SN-235246745\",\n                    \"name\": \"Ravioli\",\n                    \"description\": \"Delicious ravioli.\",\n                    \"price\": 20.00,\n                    \"store\": \"Vesuvio\",\n                    \"productCategory\": {\n                        \"id\": 6,\n                        \"productType\": \"PASTA\"\n                    }\n                }\n            ],\n            \"storeCategory\": {\n                \"id\": 3,\n                \"storeType\": \"ITALIAN\"\n            }\n        }\n    ],\n    \"apiError\": null\n}"
+				}
+			]
+		},
+		{
+			"name": "Get all users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:7262/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7262",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get all users",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7262/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7262",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"transactionId\": \"618B58245C3245699322014620306A51\",\n    \"createdAt\": \"2023-10-01 09:37:52.928\",\n    \"data\": [\n        {\n            \"id\": 1,\n            \"email\": \"dim@sample.com\",\n            \"firstname\": \"Dimitris\",\n            \"lastname\": \"Parthenis\",\n            \"age\": 28,\n            \"address\": \"Address 81\",\n            \"phoneNumber\": \"21012345\"\n        },\n        {\n            \"id\": 2,\n            \"email\": \"nikos@sample.com\",\n            \"firstname\": \"Nikos\",\n            \"lastname\": \"Nikolaou\",\n            \"age\": 25,\n            \"address\": \"Address 28\",\n            \"phoneNumber\": \"21101234\"\n        },\n        {\n            \"id\": 3,\n            \"email\": \"vasilis@sample.com\",\n            \"firstname\": \"Vasilis\",\n            \"lastname\": \"Vasiliou\",\n            \"age\": 30,\n            \"address\": \"Address 31\",\n            \"phoneNumber\": \"2113904\"\n        },\n        {\n            \"id\": 4,\n            \"email\": \"giorgos@sample.com\",\n            \"firstname\": \"Giorgos\",\n            \"lastname\": \"Georgiou\",\n            \"age\": 30,\n            \"address\": \"Address 33\",\n            \"phoneNumber\": \"2113909\"\n        }\n    ],\n    \"apiError\": null\n}"
+				}
+			]
+		},
+		{
+			"name": "Get most popular stores",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "action",
+						"value": "storesByPopularity",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:7262/stores",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7262",
+					"path": [
+						"stores"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get most popular stores",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "action",
+								"value": "storesByPopularity",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:7262/stores",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7262",
+							"path": [
+								"stores"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\r\n    \"transactionId\": \"4130462B005F4C6E96937EF4E0E916E8\",\r\n    \"createdAt\": \"2023-10-01 09:39:08.967\",\r\n    \"data\": [\r\n        {\r\n            \"storeName\": \"Vesuvio\",\r\n            \"orderCount\": 4\r\n        },\r\n        {\r\n            \"storeName\": \"Goodik\",\r\n            \"orderCount\": 3\r\n        },\r\n        {\r\n            \"storeName\": \"Joey's\",\r\n            \"orderCount\": 2\r\n        },\r\n        {\r\n            \"storeName\": \"Patisserie\",\r\n            \"orderCount\": 1\r\n        }\r\n    ],\r\n    \"apiError\": null\r\n}"
+				}
+			]
+		},
+		{
+			"name": "Initialize order",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userEmail\": \"dim@sample.com\",\r\n    \"storeName\": \"Vesuvio\",\r\n    \"products\": [ \r\n        \"Lasagna\"\r\n    ],\r\n    \"paymentMethod\": \"CASH\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7262/orders/initialize",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7262",
+					"path": [
+						"orders",
+						"initialize"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Initialize order",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userEmail\": \"dim@sample.com\",\r\n    \"storeName\": \"Vesuvio\",\r\n    \"products\": [ \r\n        \"Lasagna\"\r\n    ],\r\n    \"paymentMethod\": \"CASH\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7262/orders/initialize",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7262",
+							"path": [
+								"orders",
+								"initialize"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"transactionId\": \"D887976A29774B2B899AA96145045311\",\n    \"createdAt\": \"2023-10-01 09:42:50.309\",\n    \"data\": {\n        \"id\": 14,\n        \"user\": {\n            \"id\": 1,\n            \"email\": \"dim@sample.com\",\n            \"firstname\": \"Dimitris\",\n            \"lastname\": \"Parthenis\",\n            \"age\": 28,\n            \"address\": \"Address 81\",\n            \"phoneNumber\": \"21012345\"\n        },\n        \"orderItems\": [\n            {\n                \"product\": {\n                    \"id\": 20,\n                    \"serialNo\": \"SN-125243578\",\n                    \"name\": \"Lasagna\",\n                    \"description\": \"Simply lovely\",\n                    \"price\": 15,\n                    \"store\": \"Vesuvio\",\n                    \"productCategory\": {\n                        \"id\": 6,\n                        \"productType\": \"PASTA\"\n                    }\n                },\n                \"quantity\": 1,\n                \"amount\": 15\n            }\n        ],\n        \"paymentMethod\": \"CASH\",\n        \"orderingDate\": \"2023-10-01T21:42:50.305+00:00\",\n        \"orderStatus\": \"ACTIVE\"\n    },\n    \"apiError\": null\n}"
+				}
+			]
+		},
+		{
+			"name": "Checkout Order",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userEmail\":\"nikos@sample.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7262/orders/checkout",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7262",
+					"path": [
+						"orders",
+						"checkout"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Checkout Order",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userEmail\":\"nikos@sample.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7262/orders/checkout",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7262",
+							"path": [
+								"orders",
+								"checkout"
+							]
+						}
+					},
+					"status": "Accepted",
+					"code": 202,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"transactionId\": \"47D72E21411448C497AAE0E888C8E1E1\",\n    \"createdAt\": \"2023-10-01 09:47:17.789\",\n    \"data\": {\n        \"id\": 11,\n        \"user\": {\n            \"id\": 2,\n            \"email\": \"nikos@sample.com\",\n            \"firstname\": \"Nikos\",\n            \"lastname\": \"Nikolaou\",\n            \"age\": 25,\n            \"address\": \"Address 28\",\n            \"phoneNumber\": \"21101234\"\n        },\n        \"orderItems\": [\n            {\n                \"product\": {\n                    \"id\": 13,\n                    \"serialNo\": \"SN-124856\",\n                    \"name\": \"Tiramissou\",\n                    \"description\": \"Delicious tiramissou\",\n                    \"price\": 10,\n                    \"store\": \"Patisserie\",\n                    \"productCategory\": {\n                        \"id\": 5,\n                        \"productType\": \"DESSERT\"\n                    }\n                },\n                \"quantity\": 1,\n                \"amount\": 10\n            }\n        ],\n        \"paymentMethod\": \"CASH\",\n        \"orderingDate\": \"2023-10-01T21:46:04.615+00:00\",\n        \"orderStatus\": \"COMPLETED\"\n    },\n    \"apiError\": null\n}"
+				}
+			]
+		},
+		{
+			"name": "Initialize orders with multiple products",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userEmail\": \"dim@sample.com\",\r\n    \"storeName\": \"Vesuvio\",\r\n    \"products\": [ \r\n        \"Lasagna\",\r\n        \"Lasagna\",\r\n        \"Pasticcio\"\r\n    ],\r\n    \"paymentMethod\": \"CASH\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7262/orders/initialize",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7262",
+					"path": [
+						"orders",
+						"initialize"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Initialize orders with multiple products",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userEmail\": \"dim@sample.com\",\r\n    \"storeName\": \"Vesuvio\",\r\n    \"products\": [ \r\n        \"Lasagna\",\r\n        \"Lasagna\",\r\n        \"Pasticcio\"\r\n    ],\r\n    \"paymentMethod\": \"CASH\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7262/orders/initialize",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7262",
+							"path": [
+								"orders",
+								"initialize"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"transactionId\": \"748031822D5744F39A6EBFFAF7E9ED7F\",\n    \"createdAt\": \"2023-10-01 09:53:27.385\",\n    \"data\": {\n        \"id\": 13,\n        \"user\": {\n            \"id\": 1,\n            \"email\": \"dim@sample.com\",\n            \"firstname\": \"Dimitris\",\n            \"lastname\": \"Parthenis\",\n            \"age\": 28,\n            \"address\": \"Address 81\",\n            \"phoneNumber\": \"21012345\"\n        },\n        \"orderItems\": [\n            {\n                \"product\": {\n                    \"id\": 20,\n                    \"serialNo\": \"SN-135467536\",\n                    \"name\": \"Pasticcio\",\n                    \"description\": \"Delicious!\",\n                    \"price\": 10,\n                    \"store\": \"Vesuvio\",\n                    \"productCategory\": {\n                        \"id\": 6,\n                        \"productType\": \"PASTA\"\n                    }\n                },\n                \"quantity\": 1,\n                \"amount\": 10\n            },\n            {\n                \"product\": {\n                    \"id\": 21,\n                    \"serialNo\": \"SN-125243578\",\n                    \"name\": \"Lasagna\",\n                    \"description\": \"Simply lovely\",\n                    \"price\": 15,\n                    \"store\": \"Vesuvio\",\n                    \"productCategory\": {\n                        \"id\": 6,\n                        \"productType\": \"PASTA\"\n                    }\n                },\n                \"quantity\": 2,\n                \"amount\": 30\n            }\n        ],\n        \"paymentMethod\": \"CASH\",\n        \"orderingDate\": \"2023-10-01T21:53:27.379+00:00\",\n        \"orderStatus\": \"ACTIVE\"\n    },\n    \"apiError\": null\n}"
+				}
+			]
+		},
+		{
+			"name": "Initialize order for user with active order in another store",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userEmail\": \"nikos@sample.com\",\r\n    \"storeName\": \"Goodik\",\r\n    \"products\": [ \r\n        \"BigMac\"\r\n    ],\r\n    \"paymentMethod\": \"CASH\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:7262/orders/initialize",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7262",
+					"path": [
+						"orders",
+						"initialize"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Initialize order for user with active order in another store",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userEmail\": \"nikos@sample.com\",\r\n    \"storeName\": \"Goodik\",\r\n    \"products\": [ \r\n        \"BigMac\"\r\n    ],\r\n    \"paymentMethod\": \"CASH\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:7262/orders/initialize",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7262",
+							"path": [
+								"orders",
+								"initialize"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"transactionId\": \"C9C5F9B462C24EF2A3AC8B1A80C51F49\",\n    \"createdAt\": \"2023-10-01 10:03:24.944\",\n    \"data\": {\n        \"id\": 15,\n        \"user\": {\n            \"id\": 2,\n            \"email\": \"nikos@sample.com\",\n            \"firstname\": \"Nikos\",\n            \"lastname\": \"Nikolaou\",\n            \"age\": 25,\n            \"address\": \"Address 28\",\n            \"phoneNumber\": \"21101234\"\n        },\n        \"orderItems\": [\n            {\n                \"product\": {\n                    \"id\": 3,\n                    \"serialNo\": \"SN-1234\",\n                    \"name\": \"BigMac\",\n                    \"description\": \"Le Big Mac\",\n                    \"price\": 6,\n                    \"store\": \"Goodik\",\n                    \"productCategory\": {\n                        \"id\": 1,\n                        \"productType\": \"BURGER\"\n                    }\n                },\n                \"quantity\": 1,\n                \"amount\": 6\n            }\n        ],\n        \"paymentMethod\": \"CASH\",\n        \"orderingDate\": \"2023-10-01T22:03:24.940+00:00\",\n        \"orderStatus\": \"ACTIVE\"\n    },\n    \"apiError\": null\n}"
+				}
+			]
+		},
+		{
+			"name": "Delete product",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:7262/products/7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7262",
+					"path": [
+						"products",
+						"7"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Delete product",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7262/products/7",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7262",
+							"path": [
+								"products",
+								"7"
+							]
+						}
+					},
+					"status": "No Content",
+					"code": 204,
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": null
+				}
+			]
+		},
+		{
+			"name": "Get orders by user email",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:7262/orders?email=dim@sample.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7262",
+					"path": [
+						"orders"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "dim@sample.com"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get orders by user email",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7262/orders?email=dim@sample.com",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7262",
+							"path": [
+								"orders"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "dim@sample.com"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"transactionId\": \"477D80BDB3074606BD4496999BDFDB1A\",\n    \"createdAt\": \"2023-10-01 10:14:57.722\",\n    \"data\": [\n        {\n            \"id\": 1,\n            \"user\": {\n                \"id\": 1,\n                \"email\": \"dim@sample.com\",\n                \"firstname\": \"Dimitris\",\n                \"lastname\": \"Parthenis\",\n                \"age\": 28,\n                \"address\": \"Address 81\",\n                \"phoneNumber\": \"21012345\"\n            },\n            \"orderItems\": [\n                {\n                    \"product\": {\n                        \"id\": 16,\n                        \"serialNo\": \"SN-5648748\",\n                        \"name\": \"Spaghetti Bolognese\",\n                        \"description\": \"Favourite dish of a famous Greek musician!\",\n                        \"price\": 20,\n                        \"store\": \"Joey's\",\n                        \"productCategory\": {\n                            \"id\": 6,\n                            \"productType\": \"PASTA\"\n                        }\n                    },\n                    \"quantity\": 2,\n                    \"amount\": 40\n                }\n            ],\n            \"paymentMethod\": \"CASH\",\n            \"orderingDate\": \"2023-10-01T22:14:22.839+00:00\",\n            \"orderStatus\": \"COMPLETED\"\n        },\n        {\n            \"id\": 3,\n            \"user\": {\n                \"id\": 1,\n                \"email\": \"dim@sample.com\",\n                \"firstname\": \"Dimitris\",\n                \"lastname\": \"Parthenis\",\n                \"age\": 28,\n                \"address\": \"Address 81\",\n                \"phoneNumber\": \"21012345\"\n            },\n            \"orderItems\": [\n                {\n                    \"product\": {\n                        \"id\": 21,\n                        \"serialNo\": \"SN-125243578\",\n                        \"name\": \"Lasagna\",\n                        \"description\": \"Simply lovely\",\n                        \"price\": 15,\n                        \"store\": \"Vesuvio\",\n                        \"productCategory\": {\n                            \"id\": 6,\n                            \"productType\": \"PASTA\"\n                        }\n                    },\n                    \"quantity\": 1,\n                    \"amount\": 15\n                }\n            ],\n            \"paymentMethod\": \"CASH\",\n            \"orderingDate\": \"2023-10-01T22:14:22.877+00:00\",\n            \"orderStatus\": \"COMPLETED\"\n        },\n        {\n            \"id\": 7,\n            \"user\": {\n                \"id\": 1,\n                \"email\": \"dim@sample.com\",\n                \"firstname\": \"Dimitris\",\n                \"lastname\": \"Parthenis\",\n                \"age\": 28,\n                \"address\": \"Address 81\",\n                \"phoneNumber\": \"21012345\"\n            },\n            \"orderItems\": [\n                {\n                    \"product\": {\n                        \"id\": 2,\n                        \"serialNo\": \"SN-123\",\n                        \"name\": \"BigKahunaBurger\",\n                        \"description\": \"This is a tasty burger\",\n                        \"price\": 5,\n                        \"store\": \"Goodik\",\n                        \"productCategory\": {\n                            \"id\": 1,\n                            \"productType\": \"BURGER\"\n                        }\n                    },\n                    \"quantity\": 1,\n                    \"amount\": 5\n                },\n                {\n                    \"product\": {\n                        \"id\": 1,\n                        \"serialNo\": \"SN-1235\",\n                        \"name\": \"RoyaleWithCheese\",\n                        \"description\": \"Because of the metric system\",\n                        \"price\": 3,\n                        \"store\": \"Goodik\",\n                        \"productCategory\": {\n                            \"id\": 1,\n                            \"productType\": \"BURGER\"\n                        }\n                    },\n                    \"quantity\": 1,\n                    \"amount\": 3\n                }\n            ],\n            \"paymentMethod\": \"CASH\",\n            \"orderingDate\": \"2023-10-01T22:14:22.922+00:00\",\n            \"orderStatus\": \"COMPLETED\"\n        },\n        {\n            \"id\": 10,\n            \"user\": {\n                \"id\": 1,\n                \"email\": \"dim@sample.com\",\n                \"firstname\": \"Dimitris\",\n                \"lastname\": \"Parthenis\",\n                \"age\": 28,\n                \"address\": \"Address 81\",\n                \"phoneNumber\": \"21012345\"\n            },\n            \"orderItems\": [\n                {\n                    \"product\": {\n                        \"id\": 5,\n                        \"serialNo\": \"SN-4238905673468\",\n                        \"name\": \"Skepasti\",\n                        \"description\": \"Skepasti me souvlaki xoirino\",\n                        \"price\": 10,\n                        \"store\": \"Souvlatzidiko\",\n                        \"productCategory\": {\n                            \"id\": 2,\n                            \"productType\": \"SOUVLAKI\"\n                        }\n                    },\n                    \"quantity\": 1,\n                    \"amount\": 10\n                }\n            ],\n            \"paymentMethod\": \"CASH\",\n            \"orderingDate\": \"2023-10-01T22:14:22.956+00:00\",\n            \"orderStatus\": \"ACTIVE\"\n        }\n    ],\n    \"apiError\": null\n}"
+				}
+			]
+		},
+		{
+			"name": "Get stores grouped by category, ordered by popularity",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "action",
+						"value": "popularStoresGroupedByCategory",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:7262/stores",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7262",
+					"path": [
+						"stores"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get stores grouped by category, ordered by popularity",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "action",
+								"value": "popularStoresGroupedByCategory",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:7262/stores",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7262",
+							"path": [
+								"stores"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"transactionId\": \"E9840B4229ED40E982BDA0DCC43EAECF\",\n    \"createdAt\": \"2023-10-01 11:13:25.751\",\n    \"data\": [\n        {\n            \"category\": \"ITALIAN\",\n            \"store\": {\n                \"storeName\": \"Vesuvio\",\n                \"orderCount\": 4\n            }\n        },\n        {\n            \"category\": \"BURGER_HOUSE\",\n            \"store\": {\n                \"storeName\": \"Goodik\",\n                \"orderCount\": 3\n            }\n        },\n        {\n            \"category\": \"ITALIAN\",\n            \"store\": {\n                \"storeName\": \"Joey's\",\n                \"orderCount\": 2\n            }\n        },\n        {\n            \"category\": \"FAST_FOOD\",\n            \"store\": {\n                \"storeName\": \"Souvlatzidiko\",\n                \"orderCount\": 1\n            }\n        },\n        {\n            \"category\": \"PATISSERIE\",\n            \"store\": {\n                \"storeName\": \"Patisserie\",\n                \"orderCount\": 1\n            }\n        }\n    ],\n    \"apiError\": null\n}"
+				}
+			]
+		},
+		{
+			"name": "Get store categories by popularity",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "action",
+						"value": "popularCategories",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:7262/stores",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7262",
+					"path": [
+						"stores"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get store categories by popularity",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "action",
+								"value": "popularCategories",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:7262/stores",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7262",
+							"path": [
+								"stores"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"transactionId\": \"0DD7EF9EABB54AA5AF1BD9CB60139EA4\",\n    \"createdAt\": \"2023-10-01 11:14:43.932\",\n    \"data\": [\n        {\n            \"storeCategory\": \"ITALIAN\",\n            \"orderCount\": 6\n        },\n        {\n            \"storeCategory\": \"BURGER_HOUSE\",\n            \"orderCount\": 3\n        },\n        {\n            \"storeCategory\": \"FAST_FOOD\",\n            \"orderCount\": 1\n        },\n        {\n            \"storeCategory\": \"PATISSERIE\",\n            \"orderCount\": 1\n        }\n    ],\n    \"apiError\": null\n}"
+				}
+			]
+		},
+		{
+			"name": "Get stores and categories by popularity",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "action",
+						"value": "storesByPopularityAndCategory",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:7262/stores",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7262",
+					"path": [
+						"stores"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get stores and categories by popularity",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "action",
+								"value": "storesByPopularityAndCategory",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:7262/stores",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7262",
+							"path": [
+								"stores"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"transactionId\": \"8DE7DC4C71064052BFCB773E0275658F\",\n    \"createdAt\": \"2023-10-01 11:15:37.823\",\n    \"data\": [\n        {\n            \"storeName\": \"Vesuvio\",\n            \"phoneNumber\": \"2113895416\",\n            \"storeCategory\": \"ITALIAN\",\n            \"orderCount\": 4\n        },\n        {\n            \"storeName\": \"Goodik\",\n            \"phoneNumber\": \"21019083\",\n            \"storeCategory\": \"BURGER_HOUSE\",\n            \"orderCount\": 3\n        },\n        {\n            \"storeName\": \"Joey's\",\n            \"phoneNumber\": \"211389753\",\n            \"storeCategory\": \"ITALIAN\",\n            \"orderCount\": 2\n        },\n        {\n            \"storeName\": \"Patisserie\",\n            \"phoneNumber\": \"211382734\",\n            \"storeCategory\": \"PATISSERIE\",\n            \"orderCount\": 1\n        },\n        {\n            \"storeName\": \"Souvlatzidiko\",\n            \"phoneNumber\": \"21089789\",\n            \"storeCategory\": \"FAST_FOOD\",\n            \"orderCount\": 1\n        }\n    ],\n    \"apiError\": null\n}"
+				}
+			]
+		},
+		{
+			"name": "Demo for timeout exception",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:7262/demo",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "7262",
+					"path": [
+						"demo"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Demo for timeout exception",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:7262/demo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7262",
+							"path": [
+								"demo"
+							]
+						}
+					},
+					"status": "Request Timeout",
+					"code": 408,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json",
+							"name": "Content-Type",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"transactionId\": \"FC803706604F4C8CB1ADD4B65110C1C5\",\n    \"createdAt\": \"2023-10-01 11:27:48.187\",\n    \"data\": null,\n    \"apiError\": {\n        \"status\": 408,\n        \"message\": \"TimeLimiter 'basicTimeout' recorded a timeout exception.\",\n        \"path\": \"/demo\"\n    }\n}"
+				}
+			]
+		}
+	]
+}

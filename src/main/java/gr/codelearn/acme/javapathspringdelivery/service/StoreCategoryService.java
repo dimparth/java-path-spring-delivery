@@ -1,7 +1,6 @@
 package gr.codelearn.acme.javapathspringdelivery.service;
 
 import gr.codelearn.acme.javapathspringdelivery.domain.StoreCategory;
-import gr.codelearn.acme.javapathspringdelivery.domain.StoreType;
 
 import java.util.Optional;
 

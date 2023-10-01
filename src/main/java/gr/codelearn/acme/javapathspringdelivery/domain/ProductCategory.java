@@ -4,9 +4,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import java.util.HashSet;
-import java.util.Set;
-
 @Getter
 @Setter
 @ToString(callSuper = true)
@@ -21,6 +18,4 @@ public class ProductCategory extends BaseModel {
     @Enumerated(EnumType.STRING)
     @Column(length = 15, nullable = false)
     private ProductType productType;
-    /*@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private Set<Product> products = new HashSet<>();*/
 }

@@ -2,7 +2,6 @@ package gr.codelearn.acme.javapathspringdelivery.service;
 
 import gr.codelearn.acme.javapathspringdelivery.domain.ProductCategory;
 import gr.codelearn.acme.javapathspringdelivery.domain.ProductType;
-import gr.codelearn.acme.javapathspringdelivery.domain.StoreType;
 import gr.codelearn.acme.javapathspringdelivery.repository.ProductCategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -29,6 +28,7 @@ public class ProductCategoryServiceImpl extends BaseServiceImpl<ProductCategory>
         return productCategoryRepository.findByProductType(getProductType(productType));
     }
     public ProductCategory getNonPersistentProductCategory(String productType){
+        logger.trace("Fetching product category {}", productType);
         return ProductCategory.builder().productType(getProductType(productType)).build();
     }
     private ProductType getProductType(String input){

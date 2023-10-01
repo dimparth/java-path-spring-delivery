@@ -1,7 +1,6 @@
 package gr.codelearn.acme.javapathspringdelivery.transfer.resource;
 
 import gr.codelearn.acme.javapathspringdelivery.domain.ProductCategory;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;

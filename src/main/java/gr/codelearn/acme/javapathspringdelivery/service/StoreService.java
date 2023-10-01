@@ -2,6 +2,8 @@ package gr.codelearn.acme.javapathspringdelivery.service;
 
 import gr.codelearn.acme.javapathspringdelivery.domain.Order;
 import gr.codelearn.acme.javapathspringdelivery.domain.Store;
+import gr.codelearn.acme.javapathspringdelivery.transfer.PopularCategoriesDto;
+import gr.codelearn.acme.javapathspringdelivery.transfer.PopularStoreAndCategoryDto;
 import gr.codelearn.acme.javapathspringdelivery.transfer.PopularStoreDto;
 import gr.codelearn.acme.javapathspringdelivery.transfer.PopularStoresPerCategoryDto;
 
@@ -14,5 +16,7 @@ public interface StoreService extends BaseService<Store,Long> {
     CompletableFuture<List<Store>> getStoreByCategory(String storeCategory);
     CompletableFuture<List<PopularStoreDto>> getPopularStores();
     CompletableFuture<List<PopularStoresPerCategoryDto>> getPopularStoresPerCategory();
+    CompletableFuture<List<PopularCategoriesDto>> getMostPopularCategories();
+    CompletableFuture<List<PopularStoreAndCategoryDto>> getPopular();
     Store addOrderToStore(Store store, Order order);
 }

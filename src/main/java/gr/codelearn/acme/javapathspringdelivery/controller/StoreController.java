@@ -5,9 +5,7 @@ import gr.codelearn.acme.javapathspringdelivery.mapper.BaseMapper;
 import gr.codelearn.acme.javapathspringdelivery.mapper.StoreMapper;
 import gr.codelearn.acme.javapathspringdelivery.service.BaseService;
 import gr.codelearn.acme.javapathspringdelivery.service.StoreService;
-import gr.codelearn.acme.javapathspringdelivery.transfer.ApiResponse;
-import gr.codelearn.acme.javapathspringdelivery.transfer.PopularStoreDto;
-import gr.codelearn.acme.javapathspringdelivery.transfer.PopularStoresPerCategoryDto;
+import gr.codelearn.acme.javapathspringdelivery.transfer.*;
 import gr.codelearn.acme.javapathspringdelivery.transfer.resource.StoreResource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -58,6 +56,20 @@ public class StoreController extends BaseController<Store, StoreResource>{
     public ResponseEntity<ApiResponse<List<PopularStoresPerCategoryDto>>> getStoresByPopularityAndCategory() throws ExecutionException, InterruptedException {
         return ResponseEntity.ok(
                 ApiResponse.<List<PopularStoresPerCategoryDto>>builder().data(storeService.getPopularStoresPerCategory().get()).build()
+        );
+    }
+
+    @GetMapping(headers = "action=popularCategories")
+    public ResponseEntity<ApiResponse<List<PopularCategoriesDto>>> getPopularCategories() throws ExecutionException, InterruptedException {
+        return ResponseEntity.ok(
+                ApiResponse.<List<PopularCategoriesDto>>builder().data(storeService.getMostPopularCategories().get()).build()
+        );
+    }
+
+    @GetMapping(headers = "action=popularStoresGroupedByCategory")
+    public ResponseEntity<ApiResponse<List<PopularStoreAndCategoryDto>>> getPopularStoresPerCategory() throws ExecutionException, InterruptedException {
+        return ResponseEntity.ok(
+                ApiResponse.<List<PopularStoreAndCategoryDto>>builder().data(storeService.getPopular().get()).build()
         );
     }
 }

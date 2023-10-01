@@ -3,8 +3,6 @@ package gr.codelearn.acme.javapathspringdelivery.domain;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-
-import java.util.List;
 @Getter
 @Setter
 @ToString(callSuper = true)
@@ -19,6 +17,4 @@ public class StoreCategory extends BaseModel {
     @Enumerated(EnumType.STRING)
     @Column(length = 15, nullable = false)
     private StoreType storeType;
-    /*@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<Store> stores;*/
 }

@@ -7,7 +7,6 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring", uses = {ProductMapper.class}, config = IgnoreUnmappedConfig.class)
 public interface StoreMapper extends BaseMapper<Store, StoreResource> {

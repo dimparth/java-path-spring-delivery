@@ -1,7 +1,12 @@
 package gr.codelearn.acme.javapathspringdelivery.service;
 
-import gr.codelearn.acme.javapathspringdelivery.domain.*;
+import gr.codelearn.acme.javapathspringdelivery.domain.Order;
+import gr.codelearn.acme.javapathspringdelivery.domain.Product;
+import gr.codelearn.acme.javapathspringdelivery.domain.Store;
+import gr.codelearn.acme.javapathspringdelivery.domain.StoreCategory;
 import gr.codelearn.acme.javapathspringdelivery.repository.StoreRepository;
+import gr.codelearn.acme.javapathspringdelivery.transfer.PopularCategoriesDto;
+import gr.codelearn.acme.javapathspringdelivery.transfer.PopularStoreAndCategoryDto;
 import gr.codelearn.acme.javapathspringdelivery.transfer.PopularStoreDto;
 import gr.codelearn.acme.javapathspringdelivery.transfer.PopularStoresPerCategoryDto;
 import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
@@ -11,9 +16,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
-
-import static java.util.stream.Collectors.groupingBy;
-import static java.util.stream.Collectors.mapping;
+import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -27,29 +31,58 @@ public class StoreServiceImpl extends BaseServiceImpl<Store> implements StoreSer
     }
 
     @Override
+    @TimeLimiter(name = "basicTimeout")
     public CompletableFuture<List<Store>> findAll(){
+        logger.trace("Retrieving all Stores");
+        return CompletableFuture.supplyAsync(storeRepository::findAllFetching);
+    }
+
+    @TimeLimiter(name = "basicTimeout")
+    public CompletableFuture<List<PopularCategoriesDto>> getMostPopularCategories(){
+        logger.trace("retrieving most popular categories");
+        return CompletableFuture.supplyAsync(storeRepository::findPopularCategories);
+    }
+
+    @TimeLimiter(name = "basicTimeout")
+    public CompletableFuture<List<PopularStoreAndCategoryDto>> getPopular(){
+        logger.trace("retrieving most popular stores grouped by category");
         return CompletableFuture.supplyAsync(()->{
-            logger.trace("Retrieving all Stores");
-            var res = storeRepository.findAllFetching();
-            return res;
+            try {
+                Map<String, List<Store>> map = findAll().get().stream().collect(Collectors.groupingBy(x->x.getStoreCategory().getStoreType().toString()));
+                var result = new ArrayList<PopularStoreAndCategoryDto>();
+                for (Map.Entry<String, List<Store>> entry : map.entrySet()) {
+                    var category = entry.getKey();
+                    var stores = entry.getValue();
+                    for(var store: stores){
+                        var res = new PopularStoreAndCategoryDto();
+                        res.setCategory(category);
+                        var st = new PopularStoreDto();
+                        st.setStoreName(store.getName());
+                        st.setOrderCount((long) store.getOrders().stream().distinct().toList().size());
+                        res.setStore(st);
+                        result.add(res);
+                    }
+                }
+                Comparator<PopularStoreAndCategoryDto> comparator = Comparator.comparingLong(x->x.getStore().getOrderCount());
+                result.sort(comparator.reversed());
+                return result;
+            } catch (InterruptedException | ExecutionException e) {
+                throw new RuntimeException(e);
+            }
         });
     }
 
     @TimeLimiter(name = "basicTimeout")
     public CompletableFuture<List<PopularStoreDto>> getPopularStores() {
-        return CompletableFuture.supplyAsync(()->{
-            var res = storeRepository.findMostFamousStores();
-            return res;
-        });
+        logger.trace("Fetching most popular stores");
+        return CompletableFuture.supplyAsync(storeRepository::findMostFamousStores);
     }
 
     @Override
     @TimeLimiter(name = "basicTimeout")
     public CompletableFuture<List<PopularStoresPerCategoryDto>> getPopularStoresPerCategory(){
-        return CompletableFuture.supplyAsync(()->{
-            var res = storeRepository.findPopularStoresPerCategory();
-            return res;
-        });
+        logger.trace("Fetching most popular stores and categories");
+        return CompletableFuture.supplyAsync(storeRepository::findPopularStoresPerCategory);
     }
     @Override
     @TimeLimiter(name = "basicTimeout")
@@ -65,20 +98,21 @@ public class StoreServiceImpl extends BaseServiceImpl<Store> implements StoreSer
 
     @TimeLimiter(name = "basicTimeout")
     public CompletableFuture<Store> getStoreByName(final String name){
+        logger.trace("Searching for store with name {}", name);
         return CompletableFuture.supplyAsync(()->{
-            logger.trace("Searching for store with name {}", name);
             var res = storeRepository.findByName(name);
             return res;
         });
     }
     @TimeLimiter(name = "basicTimeout")
     public CompletableFuture<List<Store>> getStoreByCategory(final String storeCategory){
+        logger.trace("Searching for stores belonging to category {}", storeCategory);
         return CompletableFuture.supplyAsync(()->{
-            logger.trace("Searching for stores belonging to category {}", storeCategory);
             var category = storeCategoryService.getStoreCategoryByStoreType(storeCategory).orElseThrow(NoSuchElementException::new);
             return storeRepository.findByStoreCategory(category);
         });
     }
+
     public Store addOrderToStore(Store store, Order order){
         var storeOrders = store.getOrders();
         storeOrders.add(order);
@@ -86,6 +120,7 @@ public class StoreServiceImpl extends BaseServiceImpl<Store> implements StoreSer
         return store;
     }
     private Store initializeStore(final Store store){
+        logger.trace("initializing store {}", store.getName());
         StoreCategory storeCategoryByStoreType = storeCategoryService.getStoreCategoryByStoreType(store.getStoreCategory().getStoreType().toString())
                 .orElse(storeCategoryService.create(store.getStoreCategory()));
         var newStore = Store.builder().name(store.getName()).storeCategory(storeCategoryByStoreType).address(store.getAddress()).phoneNumber(store.getPhoneNumber()).build();

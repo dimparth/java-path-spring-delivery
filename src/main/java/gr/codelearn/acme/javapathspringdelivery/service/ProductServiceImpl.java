@@ -1,14 +1,13 @@
 package gr.codelearn.acme.javapathspringdelivery.service;
 
 import gr.codelearn.acme.javapathspringdelivery.domain.Product;
-import gr.codelearn.acme.javapathspringdelivery.domain.ProductCategory;
 import gr.codelearn.acme.javapathspringdelivery.repository.ProductRepository;
+import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -22,11 +21,11 @@ public class ProductServiceImpl extends BaseServiceImpl<Product> implements Prod
         return productRepository;
     }
     @Override
+    @TimeLimiter(name = "basicTimeout")
     public CompletableFuture<List<Product>> findAll(){
         return CompletableFuture.supplyAsync(()->{
             logger.trace("Retrieving all products");
-            var res =productRepository.findAllFetching();
-            return res;
+            return productRepository.findAllFetching();
         });
     }
     @Override

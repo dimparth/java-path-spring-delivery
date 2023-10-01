@@ -2,6 +2,7 @@ package gr.codelearn.acme.javapathspringdelivery.repository;
 
 import gr.codelearn.acme.javapathspringdelivery.domain.Store;
 import gr.codelearn.acme.javapathspringdelivery.domain.StoreCategory;
+import gr.codelearn.acme.javapathspringdelivery.transfer.PopularCategoriesDto;
 import gr.codelearn.acme.javapathspringdelivery.transfer.PopularStoreDto;
 import gr.codelearn.acme.javapathspringdelivery.transfer.PopularStoresPerCategoryDto;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -63,4 +64,15 @@ public interface StoreRepository extends JpaRepository<Store,Long> {
             "GROUP BY s.name, s.phoneNumber, sc.storeType " +
             "ORDER BY orderCount DESC")
     List<PopularStoresPerCategoryDto> findPopularStoresPerCategory();
+
+    @Query("SELECT " +
+            "new gr.codelearn.acme.javapathspringdelivery.transfer.PopularCategoriesDto(" +
+            " CAST(sc.storeType AS string) AS storeCategory, " +
+            "COUNT(o.id) AS orderCount)" +
+            " FROM Store s " +
+            "LEFT JOIN s.storeCategory sc " +
+            "LEFT JOIN s.orders o " +
+            "GROUP BY sc.storeType " +
+            "ORDER BY orderCount DESC")
+    List<PopularCategoriesDto> findPopularCategories();
 }
