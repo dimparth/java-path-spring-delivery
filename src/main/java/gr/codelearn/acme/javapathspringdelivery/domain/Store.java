@@ -27,9 +27,11 @@ public class Store extends BaseModel{
     private String address;
     @ToString.Exclude
     @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn
     private List<Order> orders;
     @ToString.Exclude
     @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn
     private Set<Product> products = new HashSet<>();
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn

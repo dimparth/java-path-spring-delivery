@@ -6,15 +6,15 @@ import gr.codelearn.acme.javapathspringdelivery.mapper.StoreMapper;
 import gr.codelearn.acme.javapathspringdelivery.service.BaseService;
 import gr.codelearn.acme.javapathspringdelivery.service.StoreService;
 import gr.codelearn.acme.javapathspringdelivery.transfer.ApiResponse;
+import gr.codelearn.acme.javapathspringdelivery.transfer.PopularStoreDto;
 import gr.codelearn.acme.javapathspringdelivery.transfer.PopularStoresPerCategoryDto;
-import gr.codelearn.acme.javapathspringdelivery.transfer.PopularStoresPerCategoryDto2;
 import gr.codelearn.acme.javapathspringdelivery.transfer.resource.StoreResource;
 import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -37,29 +37,29 @@ public class StoreController extends BaseController<Store, StoreResource>{
         return storeMapper;
     }
 
-    @GetMapping("/{name}")
-    public ResponseEntity<ApiResponse<StoreResource>> getByStoreName(@PathVariable("name") final String name) throws ExecutionException, InterruptedException {
+    @GetMapping(params = {"name"})
+    public ResponseEntity<ApiResponse<StoreResource>> getByStoreName(@RequestParam("name") final String name) throws ExecutionException, InterruptedException {
         return ResponseEntity.ok(
                 ApiResponse.<StoreResource>builder().data(getMapper().toResource(storeService.getStoreByName(name).get())).build());
     }
 
-    @GetMapping("/{category}")
-    public ResponseEntity<ApiResponse<List<StoreResource>>> getStoresByCategory(@PathVariable("category") final String category){
+    @GetMapping(params = {"category"})
+    public ResponseEntity<ApiResponse<List<StoreResource>>> getStoresByCategory(@RequestParam("category") final String category){
         return ResponseEntity.ok(
                 ApiResponse.<List<StoreResource>>builder().data(getMapper().toResources(storeService.getStoreByCategory(category))).build()
         );
     }
     @GetMapping(headers = "action=storesByPopularity")
-    public ResponseEntity<ApiResponse<List<StoreResource>>> getStoresByPopularity() throws ExecutionException, InterruptedException {
+    public ResponseEntity<ApiResponse<List<PopularStoreDto>>> getStoresByPopularity() throws ExecutionException, InterruptedException {
         return ResponseEntity.ok(
-                ApiResponse.<List<StoreResource>>builder().data(getMapper().toResources(storeService.getPopularStores().get())).build()
+                ApiResponse.<List<PopularStoreDto>>builder().data(storeService.getPopularStores().get()).build()
         );
     }
 
     @GetMapping(headers = "action=storesByPopularityAndCategory")
-    public ResponseEntity<ApiResponse<List<PopularStoresPerCategoryDto2>>> getStoresByPopularityAndCategory() throws ExecutionException, InterruptedException {
+    public ResponseEntity<ApiResponse<List<PopularStoresPerCategoryDto>>> getStoresByPopularityAndCategory() throws ExecutionException, InterruptedException {
         return ResponseEntity.ok(
-                ApiResponse.<List<PopularStoresPerCategoryDto2>>builder().data(storeService.getPopularStoresPerCategory().get()).build()
+                ApiResponse.<List<PopularStoresPerCategoryDto>>builder().data(storeService.getPopularStoresPerCategory().get()).build()
         );
     }
 

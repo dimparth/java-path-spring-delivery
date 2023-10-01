@@ -13,12 +13,19 @@ public interface OrderRepository extends JpaRepository<Order,Long> {
     @Query("SELECT o FROM Order o " +
             "left JOIN FETCH o.user " +
             "left JOIN FETCH o.orderItems oi " +
-            "left JOIN FETCH o.store s " +
+            //"left JOIN FETCH o.store s " +
             "left join fetch oi.product p " +
+            "left join fetch p.store s " +
             "left join fetch s.storeCategory " +
             "left join fetch p.productCategory ")
     List<Order> findAllFetching();
     @Query("SELECT o FROM Order o " +
-            "WHERE o.user.email = :email")
+            "left join fetch o.user u " +
+            "left join fetch o.orderItems oi " +
+            "left join fetch oi.product p " +
+            "left join fetch p.store s " +
+            "left join fetch s.storeCategory " +
+            "left join fetch p.productCategory " +
+            "WHERE u.email = :email")
     List<Order> findOrdersByUserEmail(@Param("email") String email);
 }

@@ -4,7 +4,6 @@ package gr.codelearn.acme.javapathspringdelivery.bootstrap;
 import gr.codelearn.acme.javapathspringdelivery.base.BaseComponent;
 import gr.codelearn.acme.javapathspringdelivery.domain.*;
 import gr.codelearn.acme.javapathspringdelivery.service.*;
-import gr.codelearn.acme.javapathspringdelivery.transfer.PopularStoresPerCategoryDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
@@ -12,7 +11,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -62,6 +60,7 @@ public class SampleDataInitializer extends BaseComponent implements CommandLineR
         var alcoholDrinks = productService.createAll(buildAlcohol(alcoholCategory).stream().toList());
         var desserts = productService.createAll(buildDesserts(dessertCategory).stream().toList());
         var pasta = productService.createAll(buildPasta(pastaCategory).stream().toList());
+        var morePasta = productService.createAll(buildMorePasta(pastaCategory).stream().toList());
         var pizza = productService.createAll(buildPizza(pizzaCategory).stream().toList());
         logger.trace("Created products for all categories");
 
@@ -69,7 +68,8 @@ public class SampleDataInitializer extends BaseComponent implements CommandLineR
 
 
         var italianStoreProducts = new HashSet<>(pasta);
-
+        italianStoreProducts.addAll(pizza);
+        var moreItalianStoreProducts = new HashSet<>(morePasta);
         var fastFoodProducts = new HashSet<>(souvlakia);
         fastFoodProducts.addAll(softDrinks);
 
@@ -86,6 +86,9 @@ public class SampleDataInitializer extends BaseComponent implements CommandLineR
         var storeItalian = storeService.createNewStoreWithProducts(
                 Store.builder().name("Joey's").products(italianStoreProducts).address("Address 89").phoneNumber("211389753").storeCategory(italianStoreCategory).build()
         );
+        var anotherItalian = storeService.createNewStoreWithProducts(
+                Store.builder().name("Vesuvio").products(moreItalianStoreProducts).address("Address 52").phoneNumber("2113895416").storeCategory(italianStoreCategory).build()
+        );
         logger.trace("Created store {}", storeItalian);
 
         var storeDesserts = storeService.createNewStoreWithProducts(
@@ -95,21 +98,36 @@ public class SampleDataInitializer extends BaseComponent implements CommandLineR
 
         var ordersItalian = List.of(getOrderObject("dim@sample.com", "Joey's", List.of("Spaghetti Bolognese"))
                 //,
-                //getOrderObject("nikos@sample.com", "Joey's", List.of("Spaghetti Napolitana", "Wine", "Pizza di Pollo")),
-                //getOrderObject("giorgos@sample.com", "Joey's", List.of("BlackWhite Crepe", "Pizza Margharita"))
+                //getOrderObject("nikos@sample.com", "Joey's", List.of("Spaghetti Napolitana")),
+                //getOrderObject("giorgos@sample.com", "Joey's", List.of("Pizza di Pollo"))
         );
         ordersItalian.forEach(x -> {
-                    orderService.checkoutOrder(orderService.initiateOrderForUser(x));
                     logger.trace("Initiated order {}", x);
+                    var o =orderService.initiateOrderForUser(x);
+                    orderService.checkoutOrder(o);
                 }
         );
 
+        var moreOrdersItalian = List.of(getOrderObject("dim@sample.com", "Vesuvio", List.of("Lasagna"))
+                ,
+                getOrderObject("nikos@sample.com", "Vesuvio", List.of("Pasticcio")),
+                getOrderObject("giorgos@sample.com", "Vesuvio", List.of("Pasticcio")),
+                getOrderObject("vasilis@sample.com", "Vesuvio", List.of("Pasticcio"))
+        );
+        moreOrdersItalian.forEach(o->{
+            logger.trace("Initiated order {}", o);
+            var a =orderService.initiateOrderForUser(o);
+            orderService.checkoutOrder(a);
+        });
+
         var ordersBurger = List.of(getOrderObject("dim@sample.com", "Goodik", List.of("BigKahunaBurger", "RoyaleWithCheese"))
-                //,
-                //getOrderObject("nikos@sample.com", "Goodik", List.of("BigMac", "Cola"))
+                ,
+                getOrderObject("nikos@sample.com", "Goodik", List.of("BigMac")),
+                getOrderObject("nikos@sample.com", "Goodik", List.of("BigMac"))
         );
         ordersBurger.forEach(order->{
-            orderService.checkoutOrder(orderService.initiateOrderForUser(order));
+            var o = orderService.initiateOrderForUser(order);
+            orderService.checkoutOrder(o);
             logger.trace("Initiated order: {}", order);
         });
 
@@ -119,22 +137,11 @@ public class SampleDataInitializer extends BaseComponent implements CommandLineR
             logger.trace("Initiated order: {}", or);
         });
 
-        //var foundStore = storeService.getStoreByName("Goodik");
-        //logger.trace("Store found by name: {}", foundStore);
-        //List<Store> foundStore2 = storeService.getStoreByCategory("FAST_FOOD");
-        //logger.trace("found stores by cat: {}", foundStore2);
-        //User usr = User.builder().email("dim@sample.com").build();
-        //usr.setId(1L);
-        //gr.codelearn.acme.javapathspringdelivery.domain.Order order2 = orderService.initiateOrderForUser(getOrderObject("dim@sample.com", "Goodik", List.of("BigKahunaBurger", "BigMac")));
-        //gr.codelearn.acme.javapathspringdelivery.domain.Order checkedout = orderService.checkoutOrder(order2);
-        //logger.trace("checked out: {}", checkedout);
-        //logger.trace("order: {}", order2);
-        //List<Store> str = storeService.getPopularStores().get();
-        //logger.trace("poplar stores: {}", str);
-        //List<PopularStoresPerCategoryDto> popstr = storeService.getPopularStoresPerCategory2().get();
-        //logger.trace("stores per cat: {}", popstr);
-        //List<gr.codelearn.acme.javapathspringdelivery.domain.Order> allordes = orderService.findAll();
-        //logger.trace("orders: {}", allordes);
+        var ordersDessert = List.of(getOrderObject("dim@sample.com", "Patisserie", List.of("Tiramissou")));
+        ordersDessert.forEach(or->{
+            orderService.initiateOrderForUser(or);
+            logger.trace("Initiated order: {}", or);
+        });
     }
 
     private gr.codelearn.acme.javapathspringdelivery.domain.Order getOrderObject(String email, String storeName, List<String> products) {
@@ -145,7 +152,7 @@ public class SampleDataInitializer extends BaseComponent implements CommandLineR
         }
         return gr.codelearn.acme.javapathspringdelivery.domain.Order.builder()
                 .user(User.builder().email(email).build())
-                .store(Store.builder().name(storeName).build())
+                //.store(Store.builder().name(storeName).build())
                 .orderItems(orderItems)
                 .build();
     }
@@ -211,6 +218,16 @@ public class SampleDataInitializer extends BaseComponent implements CommandLineR
                 Product.builder().serialNo("SN-1564896748").name("Spaghetti Napolitana").productCategory(pastaCategory).description("Delicious and light on calories!")
                         .price(new BigDecimal(10)).build());
         return pasta;
+    }
+
+    private Set<Product> buildMorePasta(ProductCategory pastaCategory){
+        var morePasta = Set.of(Product.builder().serialNo("SN-235246745").name("Ravioli").productCategory(pastaCategory).description("Delicious ravioli.")
+                        .price(new BigDecimal(20)).build(),
+                Product.builder().serialNo("SN-125243578").name("Lasagna").productCategory(pastaCategory).description("Simply lovely")
+                        .price(new BigDecimal(15)).build(),
+                Product.builder().serialNo("SN-135467536").name("Pasticcio").productCategory(pastaCategory).description("Delicious!")
+                        .price(new BigDecimal(10)).build());
+        return morePasta;
     }
 
     private Set<Product> buildPizza(ProductCategory pizzaCategory) {

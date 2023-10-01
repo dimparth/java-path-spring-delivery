@@ -19,7 +19,7 @@ public class OrderResource extends BaseResource{
     private Set<OrderItemResource> orderItems = new HashSet<>();
     private PaymentMethod paymentMethod;
     private Date orderingDate;
-    private String store;
+    //private String store;
     private OrderStatus orderStatus;
 
 }

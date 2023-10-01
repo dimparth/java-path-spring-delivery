@@ -101,16 +101,16 @@ public class RestfulExceptionHandler extends BaseComponent {
                                                         final WebRequest request) {
         logger.error("took longer than 200ms to produce a response", ex);
         return new ResponseEntity<>(
-                ApiResponse.builder().apiError(getApiError(ex, HttpStatus.REQUEST_TIMEOUT, request)).build(),
-                HttpStatus.REQUEST_TIMEOUT);
+                ApiResponse.builder().apiError(getApiError(ex, HttpStatus.INTERNAL_SERVER_ERROR, request)).build(),
+                HttpStatus.INTERNAL_SERVER_ERROR);
     }
     @ExceptionHandler(InterruptedException.class)
     public ResponseEntity<ApiResponse<?>> handleInterruptedException(final InterruptedException ex,
                                                                    final WebRequest request) {
         logger.error("took longer than 200ms to produce a response", ex);
         return new ResponseEntity<>(
-                ApiResponse.builder().apiError(getApiError(ex, HttpStatus.REQUEST_TIMEOUT, request)).build(),
-                HttpStatus.REQUEST_TIMEOUT);
+                ApiResponse.builder().apiError(getApiError(ex, HttpStatus.INTERNAL_SERVER_ERROR, request)).build(),
+                HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     private ApiError getApiError(final Exception ex, final HttpStatus status, final WebRequest request) {

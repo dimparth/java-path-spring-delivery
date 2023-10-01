@@ -6,7 +6,6 @@ import gr.codelearn.acme.javapathspringdelivery.mapper.BaseMapper;
 import gr.codelearn.acme.javapathspringdelivery.service.BaseService;
 import gr.codelearn.acme.javapathspringdelivery.transfer.ApiResponse;
 import gr.codelearn.acme.javapathspringdelivery.transfer.resource.BaseResource;
-import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

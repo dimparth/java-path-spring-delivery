@@ -61,7 +61,7 @@ public class OrderController extends BaseController<Order, OrderResource>{
         ur.setEmail(createOrderForm.getUserEmail());
         var or = new OrderResource();
         or.setUser(ur);
-        or.setStore(createOrderForm.getStoreName());
+        //or.setStore(createOrderForm.getStoreName());
         or.setOrderItems(orderItems);
 
         return or;
