@@ -53,17 +53,19 @@ public class StoreServiceImpl extends BaseServiceImpl<Store> implements StoreSer
                 for (Map.Entry<String, List<Store>> entry : map.entrySet()) {
                     var category = entry.getKey();
                     var stores = entry.getValue();
+                    var res = new PopularStoreAndCategoryDto();
+                    res.setCategory(category);
+                    var tot = (Integer) stores.stream().mapToInt(x -> x.getOrders().stream().distinct().toList().size()).sum();
+                    res.setTotalOrderCount(tot);
                     for(var store: stores){
-                        var res = new PopularStoreAndCategoryDto();
-                        res.setCategory(category);
                         var st = new PopularStoreDto();
                         st.setStoreName(store.getName());
                         st.setOrderCount((long) store.getOrders().stream().distinct().toList().size());
-                        res.setStore(st);
-                        result.add(res);
+                        res.getStore().add(st);
                     }
+                    result.add(res);
                 }
-                Comparator<PopularStoreAndCategoryDto> comparator = Comparator.comparingLong(x->x.getStore().getOrderCount());
+                Comparator<PopularStoreAndCategoryDto> comparator = Comparator.comparingLong(PopularStoreAndCategoryDto::getTotalOrderCount);
                 result.sort(comparator.reversed());
                 return result;
             } catch (InterruptedException | ExecutionException e) {

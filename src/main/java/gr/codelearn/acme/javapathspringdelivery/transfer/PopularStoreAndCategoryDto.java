@@ -3,6 +3,9 @@ package gr.codelearn.acme.javapathspringdelivery.transfer;
 
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -10,5 +13,6 @@ import lombok.*;
 @ToString
 public class PopularStoreAndCategoryDto {
     private String category;
-    private PopularStoreDto store;
+    private Integer totalOrderCount;
+    private List<PopularStoreDto> store = new ArrayList<>();
 }
