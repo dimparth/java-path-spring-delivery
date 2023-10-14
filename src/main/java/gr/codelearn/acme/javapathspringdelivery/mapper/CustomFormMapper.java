@@ -20,6 +20,7 @@ public class CustomFormMapper {
         ) {
             var pr = new ProductResource();
             pr.setName(product);
+            pr.setStore(createOrderForm.getStoreName());
             var oir = new OrderItemResource();
             oir.setProduct(pr);
             orderItems.add(oir);

@@ -46,7 +46,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderSer
     public Order checkoutOrder(Order order) {
         var orderToCheckout = getActiveOrdersForUser(order.getUser().getEmail());
         if (orderToCheckout.isEmpty()) {
-            throw new RuntimeException();
+            throw new NoSuchElementException("no active order to checkout");
         }
         logger.trace("Checking out order with id: {} for user: {}", orderToCheckout.get().getId(), orderToCheckout.get().getUser().getEmail());
         orderToCheckout.get().setOrderStatus(OrderStatus.COMPLETED);
@@ -63,6 +63,7 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderSer
         var presentActiveOrder = activeOrder.orElse(initiateOrder(orderingUser.getEmail(), order.getPaymentMethod()));
         var instances = countInstancesOfProducts(order.getOrderItems());
         Set<Product> products = new HashSet<>(getProductsForOrder(instances));
+        checkProductsOfOrder(products);
         var storeOfProductsRequestedByUser = products.stream().findFirst().orElseThrow().getStore();
         var persistedOrder = create(initiateOrder(orderingUser.getEmail(), order.getPaymentMethod()));
         if (!storeOfProductsRequestedByUser.getName().equals(getActiveStoreName(presentActiveOrder, storeOfProductsRequestedByUser))) {
@@ -73,7 +74,14 @@ public class OrderServiceImpl extends BaseServiceImpl<Order> implements OrderSer
         storeService.create(store);
         return create(persistedOrder);
     }
-
+    private void checkProductsOfOrder(Set<Product> products){
+        var store = products.stream().findFirst().orElseThrow().getStore();
+        for(var prod:products){
+            if (!prod.getStore().getName().equals(store.getName())){
+                throw new IllegalStateException("products from multiple stores have been selected!");
+            }
+        }
+    }
     private Order orderForChangedStore(Order order, User orderingUser, List<InstanceCounter> instances, Set<Product> products, Store storeOfProductsRequestedByUser, Order persistedOrder) {
         logger.trace("User {} changed store, will clear the order first", orderingUser.getEmail());
         delete(persistedOrder);

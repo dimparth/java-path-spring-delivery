@@ -112,6 +112,14 @@ public class RestfulExceptionHandler extends BaseComponent {
                 ApiResponse.builder().apiError(getApiError(ex, HttpStatus.INTERNAL_SERVER_ERROR, request)).build(),
                 HttpStatus.INTERNAL_SERVER_ERROR);
     }
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<ApiResponse<?>> handleIllegalStateException(final IllegalStateException ex,
+                                                                     final WebRequest request) {
+        logger.error("illegal state error", ex);
+        return new ResponseEntity<>(
+                ApiResponse.builder().apiError(getApiError(ex, HttpStatus.CONFLICT, request)).build(),
+                HttpStatus.CONFLICT);
+    }
 
     private ApiError getApiError(final Exception ex, final HttpStatus status, final WebRequest request) {
         String path = request.getDescription(false);
